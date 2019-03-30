@@ -1,0 +1,155 @@
+{
+	"Metatypes": [{
+			"Name": "Dwarf",
+			"attr_averages": {
+				"AGI": 3,
+				"REA": 3,
+				"STR": 4,
+				"CHA": 3,
+				"INT": 3,
+				"LOG": 4
+			},
+			"attr_softcaps": {
+				"AGI": 6,
+				"REA": 5,
+				"STR": 7,
+				"CHA": 6,
+				"INT": 6,
+				"LOG": 7
+			},
+			"attr_hardcaps": {
+				"AGI": 10,
+				"REA": 9,
+				"STR": 11,
+				"CHA": 10,
+				"INT": 10,
+				"LOG": 11
+			},
+      "qualities": [
+        "Guts", "Mana Resistance", "Resistance to Pathogens / Toxins",
+        "Thermographic Vision"
+      ]
+		},
+		{
+			"Name": "Elf",
+			"attr_averages": {
+				"AGI": 4,
+				"REA": 4,
+				"STR": 3,
+				"CHA": 4,
+				"INT": 3,
+				"LOG": 3
+			},
+			"attr_softcaps": {
+				"AGI": 7,
+				"REA": 7,
+				"STR": 6,
+				"CHA": 7,
+				"INT": 6,
+				"LOG": 6
+			},
+			"attr_hardcaps": {
+				"AGI": 11,
+				"REA": 11,
+				"STR": 10,
+				"CHA": 11,
+				"INT": 10,
+				"LOG": 10
+			},
+      "qualities": [
+        "Lowlight Vision"
+      ]
+		},
+		{
+			"Name": "Human",
+			"attr_averages": {
+				"AGI": 3,
+				"REA": 3,
+				"STR": 3,
+				"CHA": 3,
+				"INT": 3,
+				"LOG": 3
+			},
+			"attr_softcaps": {
+				"AGI": 6,
+				"REA": 6,
+				"STR": 6,
+				"CHA": 6,
+				"INT": 6,
+				"LOG": 6
+			},
+			"attr_hardcaps": {
+				"AGI": 10,
+				"REA": 10,
+				"STR": 10,
+				"CHA": 10,
+				"INT": 10,
+				"LOG": 10
+			},
+      "qualities": [
+        "+1 EDG"
+      ]
+		},
+		{
+			"Name": "Ork",
+			"attr_averages": {
+				"AGI": 3,
+				"REA": 3,
+				"STR": 5,
+				"CHA": 3,
+				"INT": 4,
+				"LOG": 4
+			},
+			"attr_softcaps": {
+				"AGI": 6,
+				"REA": 6,
+				"STR": 8,
+				"CHA": 5,
+				"INT": 7,
+				"LOG": 6
+			},
+			"attr_hardcaps": {
+				"AGI": 10,
+				"REA": 10,
+				"STR": 12,
+				"CHA": 9,
+				"INT": 11,
+				"LOG": 10
+			},
+      "qualities": [
+        "High Pain Tolerance, Lowlight Vision"
+      ]
+		},
+		{
+			"Name": "Troll",
+			"attr_averages": {
+				"AGI": 3,
+				"REA": 3,
+				"STR": 6,
+				"CHA": 2,
+				"INT": 3,
+				"LOG": 3
+			},
+			"attr_softcaps": {
+				"AGI": 6,
+				"REA": 6,
+				"STR": 9,
+				"CHA": 4,
+				"INT": 5,
+				"LOG": 5
+			},
+			"attr_hardcaps": {
+				"AGI": 10,
+				"REA": 10,
+				"STR": 13,
+				"CHA": 8,
+				"INT": 9,
+				"LOG": 9
+			},
+      "qualities": [
+        "Celerity", "Dermal Deposits", "Elongated Limbs", "Thermographic Vision"
+      ]
+		}
+	]
+
+}
