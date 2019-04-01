@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import ArrowBox from './components.js';
+import Character from './character.js';
 
-ReactDOM.render(<ArrowBox initVal={5}/>, document.getElementById("root"));
+ReactDOM.render(<Character name="Aya"/>, document.getElementById("root"));

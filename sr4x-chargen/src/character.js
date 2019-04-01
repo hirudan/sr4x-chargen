@@ -9,7 +9,9 @@ class Character extends React.Component {
   }
 
   render(){
-    return();
+    return(<div>
+      Moshi moshi, {this.props.name} desu.
+    </div>);
   }
 }
 
