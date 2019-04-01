@@ -3,8 +3,6 @@ import React from 'react';
 // allowed values
 class ArrowBox extends React.Component {
 
-  //var value = 0;
-
   constructor(props){
     super(props);
     this.state = {
@@ -15,17 +13,37 @@ class ArrowBox extends React.Component {
   render(){
     return(
       <div>
-        <button onClick={() => this.setState({value: this.state.value-1})}>
+        <button onClick={() => this.props.onDecrement()}>
           --
         </button>
         {this.state.value}
-        <button onClick={() => this.setState({value: this.state.value+1})}>
+        <button onClick={() => this.props.onIncrement()}>
           ++
        </button>
      </div>
 
-    )
+   );
+  }
+}
+
+// Panel that allows the player to enter basic data about their character:
+// Name, Age, Size, Nickname, and most importantly, Metatype
+class MetaBox extends React.Component{
+
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
+      <div class="wrapper">
+        <select name="metatype" onChange={()=>props.onMetatypeChanged}>
+
+        </select>
+      </div>
+    );
   }
 }
 
 export default ArrowBox;
+export default MetaBox;
