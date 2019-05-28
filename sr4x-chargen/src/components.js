@@ -1,4 +1,6 @@
 import React from 'react';
+import raceData from './data/character/raceData.json';
+
 // Basic box with increment/decrement arrows that enforces certain rules on
 // allowed values
 class ArrowBox extends React.Component {
@@ -30,20 +32,34 @@ class ArrowBox extends React.Component {
 // Name, Age, Size, Nickname, and most importantly, Metatype
 class MetaBox extends React.Component{
 
-  constructor(props){
-    super(props);
+  // constructor(props){
+  //  super(props);
+  //  this.state = {selectedRace: "Human"};
+  // }
+
+  // Gets metatype names to build selection combo box options
+  createSelectItems(){
+    let items = [];
+    let races = raceData["metatypes"];
+    for (let i = 0; i < races.length; i++) {
+      items.push(<option key={i} value={races[i]["name"]}>{races[i]["name"]}</option>);
+    }
+
+    return items;
   }
 
   render(){
+    let selectedRace;
     return(
-      <div class="wrapper">
-        <select name="metatype" onChange={()=>props.onMetatypeChanged}>
-
+      <div>
+        <select name="metatype"
+        value={selectedRace}
+        onChange={()=>this.props.onMetatypeChanged(selectedRace)}>
+          {this.createSelectItems()}
         </select>
       </div>
     );
   }
 }
 
-export default ArrowBox;
-export default MetaBox;
+export { ArrowBox, MetaBox }

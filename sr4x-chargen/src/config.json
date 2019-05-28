@@ -1,3 +1,9 @@
 {
-  "startingBP" : 200
+  "startingBP" : 200,
+  "metatypeCost" : 25,
+  "attrCost": 10,
+  "sellAttrCost": 5,
+  "skillCost": 2,
+  "skillGroupCost": 5,
+  "skillMax": 10
 }

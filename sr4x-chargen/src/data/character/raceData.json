@@ -1,13 +1,14 @@
 {
-	"Metatypes": [{
-			"Name": "Dwarf",
+	"metatypes": [{
+			"name": "Dwarf",
 			"attr_averages": {
 				"AGI": 3,
 				"REA": 3,
 				"STR": 4,
 				"CHA": 3,
 				"INT": 3,
-				"LOG": 4
+				"LOG": 4,
+				"EDG": 1
 			},
 			"attr_softcaps": {
 				"AGI": 6,
@@ -31,14 +32,15 @@
       ]
 		},
 		{
-			"Name": "Elf",
+			"name": "Elf",
 			"attr_averages": {
 				"AGI": 4,
 				"REA": 4,
 				"STR": 3,
 				"CHA": 4,
 				"INT": 3,
-				"LOG": 3
+				"LOG": 3,
+				"EDG": 1
 			},
 			"attr_softcaps": {
 				"AGI": 7,
@@ -61,14 +63,15 @@
       ]
 		},
 		{
-			"Name": "Human",
+			"name": "Human",
 			"attr_averages": {
 				"AGI": 3,
 				"REA": 3,
 				"STR": 3,
 				"CHA": 3,
 				"INT": 3,
-				"LOG": 3
+				"LOG": 3,
+				"EDG": 2
 			},
 			"attr_softcaps": {
 				"AGI": 6,
@@ -91,14 +94,15 @@
       ]
 		},
 		{
-			"Name": "Ork",
+			"name": "Ork",
 			"attr_averages": {
 				"AGI": 3,
 				"REA": 3,
 				"STR": 5,
 				"CHA": 3,
 				"INT": 4,
-				"LOG": 4
+				"LOG": 4,
+				"EDG": 1
 			},
 			"attr_softcaps": {
 				"AGI": 6,
@@ -121,14 +125,15 @@
       ]
 		},
 		{
-			"Name": "Troll",
+			"name": "Troll",
 			"attr_averages": {
 				"AGI": 3,
 				"REA": 3,
 				"STR": 6,
 				"CHA": 2,
 				"INT": 3,
-				"LOG": 3
+				"LOG": 3,
+				"EDG": 1
 			},
 			"attr_softcaps": {
 				"AGI": 6,
