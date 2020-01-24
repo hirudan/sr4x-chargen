@@ -39,7 +39,7 @@ class Character extends React.Component {
     return(<div>
       <p>Moshi moshi, {this.props.name} desu.</p>
       <p>I have {this.state.bp} build points.</p>
-      <MetaBox onMetatypeChanged={(e) => this.onMetatypeChanged()} />
+      <MetaBox onMetatypeChanged={(e) => this.onMetatypeChanged(e.target.value)} />
     </div>);
   }
 
@@ -60,13 +60,12 @@ class Character extends React.Component {
        else if (newMetatype === "Human" && this.state.metatype !== "Human") {
          deltaBP = configs.metatypeCost;
        }
-
-       this.setState({
-         metatype: newMetatype,
-         attr: raceData["metatypes"].indexOf(newMetatype)["attr_averages"],
-         bp: this.state.bp + deltaBP
-       })
      }
+     this.setState({
+       metatype: newMetatype,
+       attr: raceData["metatypes"].indexOf(newMetatype)["attr_averages"],
+       bp: this.state.bp + deltaBP
+     })
    }
 }
 

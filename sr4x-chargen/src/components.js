@@ -54,7 +54,7 @@ class MetaBox extends React.Component{
       <div>
         <select name="metatype"
         value={selectedRace}
-        onChange={()=>this.props.onMetatypeChanged(selectedRace)}>
+        onChange={this.props.onMetatypeChanged}>
           {this.createSelectItems()}
         </select>
       </div>
