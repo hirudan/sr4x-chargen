@@ -16,11 +16,11 @@ class ArrowBox extends React.Component {
     return(
       <div>
         <button onClick={() => this.props.onDecrement()}>
-          --
+          &lt;
         </button>
         {this.state.value}
         <button onClick={() => this.props.onIncrement()}>
-          ++
+          &gt;
        </button>
      </div>
 
@@ -51,12 +51,69 @@ class MetaBox extends React.Component{
   render(){
     let selectedRace;
     return(
-      <div>
+      <div name="metaSelect">
         <select name="metatype"
         value={selectedRace}
         onChange={this.props.onMetatypeChanged}>
           {this.createSelectItems()}
         </select>
+        {console.log(selectedRace)}
+        <p>
+          AGI
+          <ArrowBox name="AGI"
+          initVal="3"
+          onIncrement={this.props.onAttrIncrement}
+          onDecrement={this.props.onAttrDecrement}>
+          </ArrowBox>
+        </p>
+        <p>
+          REA
+          <ArrowBox name="REA"
+          initVal="3"
+          onIncrement={this.props.onAttrIncrement}
+          onDecrement={this.props.onAttrDecrement}>
+          </ArrowBox>
+        </p>
+        <p>
+          STR
+          <ArrowBox name="STR"
+          initVal="3"
+          onIncrement={this.props.onAttrIncrement}
+          onDecrement={this.props.onAttrDecrement}>
+          </ArrowBox>
+        </p>
+        <p>
+          CHA
+          <ArrowBox name="CHA"
+          initVal="3"
+          onIncrement={this.props.onAttrIncrement}
+          onDecrement={this.props.onAttrDecrement}>
+          </ArrowBox>
+        </p>
+        <p>
+          INT
+          <ArrowBox name="INT"
+          initVal="3"
+          onIncrement={this.props.onAttrIncrement}
+          onDecrement={this.props.onAttrDecrement}>
+          </ArrowBox>
+        </p>
+        <p>
+          LOG
+          <ArrowBox name="LOG"
+          initVal="3"
+          onIncrement={this.props.onAttrIncrement}
+          onDecrement={this.props.onAttrDecrement}>
+          </ArrowBox>
+        </p>
+        <p>
+          EDG
+          <ArrowBox name="EDG"
+          initVal="2"
+          onIncrement={this.props.onAttrIncrement}
+          onDecrement={this.props.onAttrDecrement}>
+          </ArrowBox>
+        </p>
       </div>
     );
   }
