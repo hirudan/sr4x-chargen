@@ -1,3 +1,4 @@
 sr4x-chargen/node-modules/*
 *.log
-
+node-modules/*
+dist/*
