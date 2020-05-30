@@ -19,12 +19,12 @@ module.exports = [
   },
   {
     mode: 'development',
-    entry: './src/react.tsx',
+    entry: './src/index.tsx',
     target: 'electron-renderer',
     devtool: 'source-map',
     module: { rules: [{
       test: /\.ts(x?)$/,
-      include: /src/,
+      include: /src/, 
       use: [{ loader: 'ts-loader' }]
     }] },
     output: {
@@ -33,8 +33,12 @@ module.exports = [
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/index.html'
+        template: './src/public/index.html',
+        favicon: './src/public/favicon.ico'
       })
-    ]
+    ],
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js']
+    }
   }
 ];
