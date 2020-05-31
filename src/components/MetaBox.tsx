@@ -8,6 +8,15 @@ export interface MetaBoxProps {onMetatypeChanged: any, onAttrIncrement: any, onA
 
 export class MetaBox extends React.Component<MetaBoxProps, {}>{
 
+    constructor(props: MetaBoxProps) {
+        super(props);
+        this.handleMetatypeChange = this.handleMetatypeChange.bind(this);
+    }
+    
+    handleMetatypeChange(e: React.FormEvent<HTMLSelectElement>){
+        this.props.onMetatypeChanged(e.currentTarget.value);
+    }
+    
     // Gets metatype names to build selection combo box options
     private static createSelectItems(){
         let items = [];
@@ -23,8 +32,7 @@ export class MetaBox extends React.Component<MetaBoxProps, {}>{
         return(
             <div>
                 <select name="metatype"
-                        onChange={e => {this.props.onMetatypeChanged(e)}}
-                        value={"Human"}>
+                        onChange={this.handleMetatypeChange}>
                     {MetaBox.createSelectItems()}
                 </select>
                 <p>&nbsp;</p>

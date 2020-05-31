@@ -37,7 +37,7 @@ export class Character extends React.Component<CharacterProps, State> {
   };
   private readonly zeroAttrObj: AttrArray;
 
-  constructor(props){
+  constructor(props: CharacterProps){
     super(props);
     this.zeroAttrObj = {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0};
     this.state = {
@@ -49,13 +49,15 @@ export class Character extends React.Component<CharacterProps, State> {
       augAttrDelta: this.zeroAttrObj, // How many points attributes have been increased by augmentation
       augSkillDelta: this.zeroAttrObj // How many points skills have been increased by augmentation
     };
+    this.onMetatypeChanged = this.onMetatypeChanged.bind(this);
+    this.onAttrIncrement = this.onAttrIncrement.bind(this);
   }
 
   render(){
     return(<div>
       <p>Moshi moshi, {this.props.name} desu.</p>
-      <p>I have {this.props.bp} build points.</p>
-      <MetaBox onMetatypeChanged={this.onMetatypeChanged.bind(this)} 
+      <p>I have {this.state.bp} build points.</p>
+      <MetaBox onMetatypeChanged={this.onMetatypeChanged} 
                 onAttrDecrement={this.onAttrDecrement}
                 onAttrIncrement={this.onAttrIncrement}/>
     </div>);
@@ -68,8 +70,7 @@ export class Character extends React.Component<CharacterProps, State> {
    // Passed to: MetaBox
    // Function: computes BP and attribute changes when user
    //           selects a different metatype
-   onMetatypeChanged(event: React.FormEvent<HTMLSelectElement>){
-     let newMetatype: string = event.currentTarget.value;
+   onMetatypeChanged(newMetatype: string){
      let deltaBP: number = 0;
      if(newMetatype !== this.state.metatype){
        if(newMetatype !== "Human" && this.state.metatype === "Human"){
@@ -81,13 +82,16 @@ export class Character extends React.Component<CharacterProps, State> {
      }
      this.setState({
        metatype: newMetatype,
-       attr: raceData["metatypes"][newMetatype]["attr_averages"],
+       // attr: raceData.metatypes.filter(m => m.name === newMetatype)[0].attr_averages,
        bp: this.state.bp + deltaBP
      })
    }
    
    onAttrIncrement(){
-     
+     let deltaBP: number = -1 * configs.attrCost;
+     this.setState({
+       bp: this.state.bp + deltaBP
+     })
    }
    
    onAttrDecrement(){
