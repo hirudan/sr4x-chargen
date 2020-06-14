@@ -1,5 +1,36 @@
 {
 	"metatypes": [{
+		"name": "Human",
+		"attr_averages": {
+			"AGI": 3,
+			"REA": 3,
+			"STR": 3,
+			"CHA": 3,
+			"INT": 3,
+			"LOG": 3,
+			"EDG": 2
+		},
+		"attr_softcaps": {
+			"AGI": 6,
+			"REA": 6,
+			"STR": 6,
+			"CHA": 6,
+			"INT": 6,
+			"LOG": 6
+		},
+		"attr_hardcaps": {
+			"AGI": 10,
+			"REA": 10,
+			"STR": 10,
+			"CHA": 10,
+			"INT": 10,
+			"LOG": 10
+		},
+		"qualities": [
+			"+1 EDG"
+		]
+	},
+		{
 			"name": "Dwarf",
 			"attr_averages": {
 				"AGI": 3,
@@ -26,10 +57,10 @@
 				"INT": 10,
 				"LOG": 11
 			},
-      "qualities": [
-        "Guts", "Mana Resistance", "Resistance to Pathogens / Toxins",
-        "Thermographic Vision"
-      ]
+			"qualities": [
+				"Guts", "Mana Resistance", "Resistance to Pathogens / Toxins",
+				"Thermographic Vision"
+			]
 		},
 		{
 			"name": "Elf",
@@ -58,40 +89,9 @@
 				"INT": 10,
 				"LOG": 10
 			},
-      "qualities": [
-        "Lowlight Vision"
-      ]
-		},
-		{
-			"name": "Human",
-			"attr_averages": {
-				"AGI": 3,
-				"REA": 3,
-				"STR": 3,
-				"CHA": 3,
-				"INT": 3,
-				"LOG": 3,
-				"EDG": 2
-			},
-			"attr_softcaps": {
-				"AGI": 6,
-				"REA": 6,
-				"STR": 6,
-				"CHA": 6,
-				"INT": 6,
-				"LOG": 6
-			},
-			"attr_hardcaps": {
-				"AGI": 10,
-				"REA": 10,
-				"STR": 10,
-				"CHA": 10,
-				"INT": 10,
-				"LOG": 10
-			},
-      "qualities": [
-        "+1 EDG"
-      ]
+			"qualities": [
+				"Lowlight Vision"
+			]
 		},
 		{
 			"name": "Ork",
@@ -101,7 +101,7 @@
 				"STR": 5,
 				"CHA": 3,
 				"INT": 4,
-				"LOG": 4,
+				"LOG": 3,
 				"EDG": 1
 			},
 			"attr_softcaps": {
@@ -120,9 +120,9 @@
 				"INT": 11,
 				"LOG": 10
 			},
-      "qualities": [
-        "High Pain Tolerance, Lowlight Vision"
-      ]
+			"qualities": [
+				"High Pain Tolerance, Lowlight Vision"
+			]
 		},
 		{
 			"name": "Troll",
@@ -151,9 +151,9 @@
 				"INT": 9,
 				"LOG": 9
 			},
-      "qualities": [
-        "Celerity", "Dermal Deposits", "Elongated Limbs", "Thermographic Vision"
-      ]
+			"qualities": [
+				"Celerity", "Dermal Deposits", "Elongated Limbs", "Thermographic Vision"
+			]
 		}
 	]
 

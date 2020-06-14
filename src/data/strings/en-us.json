@@ -1,0 +1,6 @@
+﻿{
+  "general": {},
+  "error": {
+    "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype"
+  }
+}
