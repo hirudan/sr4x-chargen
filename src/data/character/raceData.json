@@ -16,7 +16,8 @@
 			"STR": 6,
 			"CHA": 6,
 			"INT": 6,
-			"LOG": 6
+			"LOG": 6,
+			"EDG": 7
 		},
 		"attr_hardcaps": {
 			"AGI": 10,
@@ -24,7 +25,8 @@
 			"STR": 10,
 			"CHA": 10,
 			"INT": 10,
-			"LOG": 10
+			"LOG": 10,
+			"EDG": 11
 		},
 		"qualities": [
 			"+1 EDG"
@@ -47,7 +49,8 @@
 				"STR": 7,
 				"CHA": 6,
 				"INT": 6,
-				"LOG": 7
+				"LOG": 7,
+				"EDG": 6
 			},
 			"attr_hardcaps": {
 				"AGI": 10,
@@ -55,7 +58,8 @@
 				"STR": 11,
 				"CHA": 10,
 				"INT": 10,
-				"LOG": 11
+				"LOG": 11,
+				"EDG": 10
 			},
 			"qualities": [
 				"Guts", "Mana Resistance", "Resistance to Pathogens / Toxins",
@@ -79,7 +83,8 @@
 				"STR": 6,
 				"CHA": 7,
 				"INT": 6,
-				"LOG": 6
+				"LOG": 6,
+				"EDG": 6
 			},
 			"attr_hardcaps": {
 				"AGI": 11,
@@ -87,7 +92,8 @@
 				"STR": 10,
 				"CHA": 11,
 				"INT": 10,
-				"LOG": 10
+				"LOG": 10,
+				"EDG": 10
 			},
 			"qualities": [
 				"Lowlight Vision"
@@ -110,7 +116,8 @@
 				"STR": 8,
 				"CHA": 5,
 				"INT": 7,
-				"LOG": 6
+				"LOG": 6,
+				"EDG": 6
 			},
 			"attr_hardcaps": {
 				"AGI": 10,
@@ -118,7 +125,8 @@
 				"STR": 12,
 				"CHA": 9,
 				"INT": 11,
-				"LOG": 10
+				"LOG": 10,
+				"EDG": 10
 			},
 			"qualities": [
 				"High Pain Tolerance, Lowlight Vision"
@@ -141,7 +149,8 @@
 				"STR": 9,
 				"CHA": 4,
 				"INT": 5,
-				"LOG": 5
+				"LOG": 5,
+				"EDG": 6
 			},
 			"attr_hardcaps": {
 				"AGI": 10,
@@ -149,7 +158,8 @@
 				"STR": 13,
 				"CHA": 8,
 				"INT": 9,
-				"LOG": 9
+				"LOG": 9,
+				"EDG": 10
 			},
 			"qualities": [
 				"Celerity", "Dermal Deposits", "Elongated Limbs", "Thermographic Vision"
