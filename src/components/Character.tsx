@@ -8,6 +8,22 @@ import * as Console from "console";
 
 export interface CharacterProps {name?: string; bp?: number}
 
+interface String {
+  format(...replacements: string[]): string;
+}
+
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+          ? args[number]
+          : match
+          ;
+    });
+  };
+}
+
 // Represents all normal/derived/special attributes for a character
 export interface AttrArray {
   AGI: number,
@@ -74,8 +90,7 @@ export class Character extends React.Component<CharacterProps, State> {
     this.errorLog = new Array<string>();
     for(let attribute in this.state.attributes){
       if(this.state.attributes[attribute] > Character.getAttrFromConfig(this.state.metatype, softcaps)[attribute]){
-        // this.errorLog.push(messages.error.exceeded_softcap.format(attribute, this.state.metatype));
-        this.errorLog.push("foo");
+        this.errorLog.push(messages.error.exceeded_softcap.format(attribute, this.state.metatype));
       }
     }
     return this.errorLog.length === 0;
@@ -85,12 +100,29 @@ export class Character extends React.Component<CharacterProps, State> {
     return raceData.metatypes.find(m => m.name === metatype)[statBlock] || null;
   }
   
+  makeErrorList(valid: boolean): any{
+    if(!valid){
+      return(
+        <div>
+          Error(s) encountered:
+          <ul>
+            {this.errorLog.map(function(error){
+              return <li>{error}</li>
+            })}
+          </ul>
+        </div>  
+      );
+    }
+    return null;
+  }
+  
   render(){
     this.valid = this.validate();
     return(<div>
       <p>Moshi moshi, {this.props.name} desu.</p>
       <p>I have {this.state.bp} build points.</p>
       <p>State: {this.valid ? "Valid" : "Invalid"}</p>
+      {this.makeErrorList(this.valid)}
       <MetaBox attributes={this.state.attributes} 
                onMetatypeChanged={this.onMetatypeChanged} 
                onAttrDecrement={this.onAttrDecrement}
@@ -150,7 +182,6 @@ export class Character extends React.Component<CharacterProps, State> {
      newAttributes[attr] += 1;
      newAttributeDelta[attr] += deltaAttr;
      Character.updateDerivedAttributes(newAttributes);
-     Console.log(newAttributeDelta);
      this.setState({
        bp: this.state.bp + deltaBp,
        attributes: newAttributes,
@@ -175,7 +206,6 @@ export class Character extends React.Component<CharacterProps, State> {
      newAttributes[attr] -= 1;
      newAttributeDelta[attr] -= deltaAttr;
      Character.updateDerivedAttributes(newAttributes);
-     Console.log(newAttributeDelta);
      this.setState({
        bp: this.state.bp + deltaBp,
        attributes: newAttributes,
