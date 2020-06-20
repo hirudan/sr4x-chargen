@@ -5,5 +5,6 @@
   "sellAttrCost": 5,
   "skillCost": 2,
   "skillGroupCost": 5,
-  "skillMax": 10
+  "skillMax": 10,
+  "qualMax": 20
 }

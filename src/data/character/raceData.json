@@ -28,9 +28,7 @@
 			"LOG": 10,
 			"EDG": 11
 		},
-		"qualities": [
-			"+1 EDG"
-		]
+		"qualities": [	]
 	},
 		{
 			"name": "Dwarf",
@@ -61,10 +59,7 @@
 				"LOG": 11,
 				"EDG": 10
 			},
-			"qualities": [
-				"Guts", "Mana Resistance", "Resistance to Pathogens / Toxins",
-				"Thermographic Vision"
-			]
+			"qualities": [ 15, 42, 24, 4 ]
 		},
 		{
 			"name": "Elf",
@@ -95,9 +90,7 @@
 				"LOG": 10,
 				"EDG": 10
 			},
-			"qualities": [
-				"Lowlight Vision"
-			]
+			"qualities": [ 3 ]
 		},
 		{
 			"name": "Ork",
@@ -128,9 +121,7 @@
 				"LOG": 10,
 				"EDG": 10
 			},
-			"qualities": [
-				"High Pain Tolerance, Lowlight Vision"
-			]
+			"qualities": [ 3, 16 ]
 		},
 		{
 			"name": "Troll",
@@ -161,9 +152,7 @@
 				"LOG": 9,
 				"EDG": 10
 			},
-			"qualities": [
-				"Celerity", "Dermal Deposits", "Elongated Limbs", "Thermographic Vision"
-			]
+			"qualities": [ 0, 1, 2, 4 ]
 		}
 	]
 

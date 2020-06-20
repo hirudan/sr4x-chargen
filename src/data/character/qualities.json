@@ -1,0 +1,224 @@
+﻿{
+  "qualities": [{
+    "id": 0,
+    "name": "Celerity",
+    "cost": 5,
+    "selectable": false,
+    "positive": true,
+    "effect": "Increase base movement rates by 50%",
+    "requirements": [],
+    "options": []
+  },
+    {
+      "id": 1,
+      "name": "Dermal Deposits",
+      "cost": 10,
+      "selectable": false,
+      "positive": true,
+      "effect": "+2 Natural Armor (Coverage of 4)",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 2,
+      "name": "Elongated Limbs",
+      "cost": 5,
+      "selectable": false,
+      "positive": true,
+      "effect": "Character has an innate +2 DP bonus in melee due to reach",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 3,
+      "name": "Low-light vision",
+      "cost": 5,
+      "selectable": false,
+      "positive": true,
+      "effect": "Character has innate low-light vision",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 4,
+      "name": "Thermographic Vision",
+      "cost": 5,
+      "selectable": false,
+      "positive": true,
+      "effect": "Character has innate thermographic vision",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 5,
+      "name": "Ambidextrous",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "Does not take -2 DP Offhand Weapon penalty",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 6,
+      "name": "Animal Empathy",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2DP interacting with non-sentient animals and paracritters",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 7,
+      "name": "Astral Chameleon",
+      "cost": 10,
+      "selectable": true,
+      "positive": true,
+      "effect": "Astral Signatures only last half as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 8,
+      "name": "Awakened",
+      "cost": 20,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character is Awakened",
+      "requirements": [],
+      "options": ["Adept", "Mystic Adept", "Spellcaster", "Summoner", "Technomancer"]
+    },
+    {
+      "id": 9,
+      "name": "Blandness",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "-2 DP to remember or identify the character if they weren't acting memorably. This effect applies to the physical plane.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 10,
+      "name": "Double Jointed",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP when attempting to escape restraints, defend against Subduing Combat, or otherwise contort the body",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 11,
+      "name": "Erased",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "When using a fake ID, the ID receives a +2 DP bonus. This does not apply to a one-time use of Forge Credentials, but it would absolutely apply to an identity made via Forgery.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 12,
+      "name": "First Impression",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP for first social encounter",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 13,
+      "name": "Focused Concentration",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "Allows the character to ignore 2 DP of sustained program / sustained spell / bound spirit / registered sprite penalties.",
+      "requirements": [8],
+      "options": []
+    },
+    {
+      "id": 14,
+      "name": "Geomantic Instincts",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character may treat Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to both Mana Ebbs and Mana Flows.",
+      "requirements": [8],
+      "options": []
+    },
+    {
+      "id": 15,
+      "name": "Guts",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs fear effects",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 16,
+      "name": "High Pain Tolerance",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "Allows the character to ignore two boxes of wound penalties",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 24,
+      "name": "Resistance to Pathogens / Toxins",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs Pathogens and Toxins",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 42,
+      "name": "Mana Resistance",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 47,
+      "name": "Astral Beacon",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [8],
+      "options": []
+    },
+    {
+      "id": 48,
+      "name": "Combat Paralysis",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Cannot spend IP to \"jump the line\" in combat",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 68,
+      "name": "Prejudiced",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "The character is at a 4DP penalty in all social interactions with a member of the target group",
+      "requirements": [8],
+      "options": ["Dwarves", "Elves", "Humans", "Orks", "Trolls", "Un-Augmented"]
+    }
+
+  ]
+}

@@ -1,6 +1,15 @@
 ﻿{
-  "general": {},
+  "general": {
+    "quality_title": "Quality Selection",
+    "quality_greeting": "Taking positive qualities costs BP while taking negative qualities awards you BP.",
+    "quality_rules": "You may take a total of {0} BP worth of positive qualities at chargen, and you may only receive {0} BP from negative qualities. Note that this does not apply to qualities like \"Awakened\""
+  },
   "error": {
-    "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype"
+    "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype",
+    "exceeded_allowed_neg_quals": "Exceeded allowed value {0}BP of negative qualities",
+    "exceeded_allowed_pos_quals": "Exceeded allowed value {0}BP of positive qualities"
+  },
+  "qualities": {
+    "0": {"name": "Celerity", "desc": "Increase base movement rates by 50%"}
   }
 }

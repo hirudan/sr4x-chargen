@@ -26,7 +26,11 @@ module.exports = [
       test: /\.ts(x?)$/,
       include: /src/, 
       use: [{ loader: 'ts-loader' }]
-    }] },
+    },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader']
+        }] },
     output: {
       path: __dirname + '/dist',
       filename: 'react.js'
@@ -41,4 +45,5 @@ module.exports = [
       extensions: ['.ts', '.tsx', '.js']
     }
   }
+    
 ];

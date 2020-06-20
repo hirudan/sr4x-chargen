@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {ArrowBox} from "./ArrowBox";
 import raceData from '../data/character/raceData.json';
-import {AttrArray} from "./Character";
+import {AttrArray} from "../interfaces/AttrArray";
 import {Attribute} from "./Enums";
 
 export interface MetaBoxProps {attributes: AttrArray, onMetatypeChanged: any, onAttrIncrement: any, onAttrDecrement: any}

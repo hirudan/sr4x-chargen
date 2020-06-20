@@ -1,10 +1,15 @@
 import * as React from 'react';
-import configs from '../data/configs/config.json';
-import raceData from '../data/character/raceData.json';
-import * as messages from '../data/strings/en-us.json';
 import {MetaBox} from './MetaBox';
 import {Attribute} from './Enums'
 import * as Console from "console";
+import {AttrArray} from "../interfaces/AttrArray";
+import {QualBox} from "./QualBox";
+import {Quality} from "../interfaces/Quality";
+
+import configs from '../data/configs/config.json';
+import raceData from '../data/character/raceData.json';
+import qualData from '../data/character/qualities.json';
+import * as messages from '../data/strings/en-us.json';
 
 export interface CharacterProps {name?: string; bp?: number}
 
@@ -24,25 +29,14 @@ if (!String.prototype.format) {
   };
 }
 
-// Represents all normal/derived/special attributes for a character
-export interface AttrArray {
-  AGI: number,
-  REA: number,
-  STR: number,
-  CHA: number,
-  INT: number,
-  LOG: number,
-  EDG: number,
-  BOD?: number,
-  ESS?: number,
-  INI?: number,
-  WIL?: number
-}
+
 
 // The elements of state a Character object tracks
 interface State {
   bp: number,
   metatype: string,
+  qualities: Array<number>,
+  qualDelta: [number, number],
   attributes: AttrArray,
   attrDelta: AttrArray,
   augAttrDelta: AttrArray,
@@ -59,12 +53,15 @@ export class Character extends React.Component<CharacterProps, State> {
   
   private errorLog: Array<string> = new Array<string>();
   private valid: boolean = true;
+  private readonly AWAKENED_ID: number = 8;
 
   constructor(props: CharacterProps){
     super(props);
     this.state = {
       bp: configs.startingBP, // amount of BP available
-      metatype: "Human", // the character's metatype
+      metatype: "Human", // the character's metatype,
+      qualities: new Array<number>(),
+      qualDelta: [0,0],
       attributes: {AGI: 3, REA: 3, STR: 3, CHA: 3, INT: 3, LOG: 3, EDG: 2, BOD: 3, INI: 6, ESS: 6, WIL: 3}, // The character's attribute array
       attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points of attribute increase / sell-off have happened
       augAttrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points attributes have been increased by augmentation
@@ -73,6 +70,8 @@ export class Character extends React.Component<CharacterProps, State> {
     this.onMetatypeChanged = this.onMetatypeChanged.bind(this);
     this.onAttrIncrement = this.onAttrIncrement.bind(this);
     this.onAttrDecrement = this.onAttrDecrement.bind(this);
+    this.onAddQuality = this.onAddQuality.bind(this);
+    this.onRemoveQuality = this.onRemoveQuality.bind(this);
   }
   
   // Updates the derived attributes of BOD, ESS (eventually, after cyberware is implemented), INI, and WIL on the 
@@ -80,7 +79,7 @@ export class Character extends React.Component<CharacterProps, State> {
   private static updateDerivedAttributes(toUpdate: AttrArray): void{
     toUpdate.BOD = Math.floor((toUpdate.AGI + toUpdate.REA + toUpdate.STR)/3);
     toUpdate.ESS = 6; // Will compute when cyberware is implemented
-    toUpdate.INI = toUpdate.AGI + toUpdate.REA;
+    toUpdate.INI = toUpdate.INT + toUpdate.REA;
     toUpdate.WIL = Math.floor((toUpdate.CHA + toUpdate.INT + toUpdate.LOG)/3);
   }
   
@@ -88,15 +87,22 @@ export class Character extends React.Component<CharacterProps, State> {
   // Any errors will be logged to errorLog for later display. 
   private validate(): boolean{
     this.errorLog = new Array<string>();
+    // Rule: attributes shall not exceed racial softcaps
     for(let attribute in this.state.attributes){
       if(this.state.attributes[attribute] > Character.getAttrFromConfig(this.state.metatype, softcaps)[attribute]){
         this.errorLog.push(messages.error.exceeded_softcap.format(attribute, this.state.metatype));
       }
     }
+    // Rule: players shall not spend more than 20BP on qualities, nor shall they gain more than 20 in negative
+    // qualities.
+    if(this.state.qualDelta[0] > configs.qualMax && this.state.qualities.indexOf(this.AWAKENED_ID) === -1)
+      this.errorLog.push(messages.error.exceeded_allowed_pos_quals.format(String(configs.qualMax)));
+    if(Math.abs(this.state.qualDelta[1]) > configs.qualMax)
+      this.errorLog.push(messages.error.exceeded_allowed_neg_quals.format(String(configs.qualMax)))
     return this.errorLog.length === 0;
   }
   
-  private static getAttrFromConfig(metatype: string, statBlock: string): AttrArray{
+  private static getAttrFromConfig(metatype: string, statBlock: string): any{
     return raceData.metatypes.find(m => m.name === metatype)[statBlock] || null;
   }
   
@@ -127,6 +133,10 @@ export class Character extends React.Component<CharacterProps, State> {
                onMetatypeChanged={this.onMetatypeChanged} 
                onAttrDecrement={this.onAttrDecrement}
                onAttrIncrement={this.onAttrIncrement}/>
+      <QualBox qualities={this.state.qualities}
+               onAdd={this.onAddQuality}
+               onRemove={this.onRemoveQuality}
+               metatype={this.state.metatype}/>
     </div>);
   }
 
@@ -156,19 +166,41 @@ export class Character extends React.Component<CharacterProps, State> {
        delta >= 0 ? deltaBP += configs.attrCost * delta : deltaBP += configs.sellAttrCost * delta;
        this.state.attrDelta[x] = 0;
      }
-          
+     
+     // Handle quality changes
+     let freeQualities = Character.getAttrFromConfig(newMetatype, "qualities");
+     let oldFreeQualities = Character.getAttrFromConfig(this.state.metatype, "qualities");
+     let newQualities = this.state.qualities;
+
+     // Remove old free qualities
+     oldFreeQualities.map((quality: number) => {
+       if(newQualities.indexOf(quality) !== -1)
+         newQualities.splice(newQualities.indexOf(quality), 1);
+     });
+     
+     this.state.qualities.map((quality: number) => {
+       // Refund BP spent on any qualities that come free with the new metatype
+       if(freeQualities.indexOf(quality) !== -1)
+        deltaBP += qualData.qualities.find(foundQuality => foundQuality.id === quality).cost;
+     });
+     
+     // Add new free qualities
+     freeQualities.map((quality: number) => {
+       if(newQualities.indexOf(quality) === -1)
+         newQualities.push(quality);
+     });
+     
      this.setState({
        metatype: newMetatype,
        attributes: new_averages,
-       // attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0},
+       qualities: newQualities,
        bp: this.state.bp + deltaBP
-     })
+     });
      
    }
 
    // Recipient: MetaBox
-   // Purpose  : computes BP and attribute changes when user
-   //            selects a different metatype
+   // Purpose  : Increments selected attribute
    onAttrIncrement(attr: Attribute){
      let deltaBp: number = (this.state.attrDelta[attr] >= 0) ? -1 * configs.attrCost : -1 * configs.sellAttrCost;
      let deltaAttr: number = 1;
@@ -190,8 +222,7 @@ export class Character extends React.Component<CharacterProps, State> {
    }
 
    // Recipient: MetaBox
-   // Purpose  : computes BP and attribute changes when user
-   //           selects a different metatype
+   // Purpose  : Decrements selected attribute
    onAttrDecrement(attr: Attribute){
      if(this.state.attributes[attr] <= 1)
        return;
@@ -212,4 +243,57 @@ export class Character extends React.Component<CharacterProps, State> {
        attrDelta: newAttributeDelta
      })
    }
+   
+   // Recipient: QualBox
+   // Purpose: Adds a quality to the character's qualities
+  onAddQuality(toAdd: number){
+     let quality: Quality = qualData.qualities.find(q => q.id === toAdd);
+     let newQualities = this.state.qualities;
+     newQualities.push(quality?.id);
+     let column, sign : number;
+     if(quality?.positive){
+       column = 0;
+       sign = -1;
+     }
+     else{
+       column = 1;
+       sign = 1;
+     }
+     let newQualDelta: [number, number] = this.state.qualDelta;
+     newQualDelta[column] += quality?.cost;
+      
+     this.setState({
+       bp: this.state.bp + sign * quality?.cost,
+       qualDelta: newQualDelta,
+       qualities: newQualities
+     }
+     );
+  }
+  
+  // Recipient: QualBox
+  // Purpose: Removes a quality from the character's qualities
+  onRemoveQuality(toRemove: number){
+    let quality: Quality = qualData.qualities.find(q => q.id === toRemove);
+    let newQualities = this.state.qualities;
+    newQualities.splice(this.state.qualities.indexOf(toRemove),1);
+    let column, sign : number;
+    if(quality?.positive){
+      column = 0;
+      sign = 1;
+    }
+    else{
+      column = 1;
+      sign = -1;
+    }
+    let newQualDelta: [number, number] = this.state.qualDelta;
+    newQualDelta[column] -= quality?.cost;
+
+    this.setState({
+          bp: this.state.bp + sign * quality?.cost,
+          qualDelta: newQualDelta,
+          qualities: newQualities
+        }
+    );
+  }
+  
 }
