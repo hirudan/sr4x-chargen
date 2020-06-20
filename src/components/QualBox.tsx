@@ -119,6 +119,8 @@ export class QualBox extends React.Component<QualProps, QualState>{
                                         {qualData.qualities.map((quality: Quality) => {return(
                                             (quality.selectable && quality.positive === this.state.posSelected &&
                                                 this.props.qualities.indexOf(quality.id) === -1) &&
+                                            (quality.requirements.length > 0 ? 
+                                                quality.requirements.some(q => this.props.qualities.indexOf(q) !== -1) : true) &&
                                             <option key={quality.id}>{quality.name}</option>
                                         )})}
                                     </Form.Control>

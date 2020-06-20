@@ -7,7 +7,8 @@
   "error": {
     "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype",
     "exceeded_allowed_neg_quals": "Exceeded allowed value {0}BP of negative qualities",
-    "exceeded_allowed_pos_quals": "Exceeded allowed value {0}BP of positive qualities"
+    "exceeded_allowed_pos_quals": "Exceeded allowed value {0}BP of positive qualities",
+    "qual_req_not_met": "Quality {0} requires quality {1}"
   },
   "qualities": {
     "0": {"name": "Celerity", "desc": "Increase base movement rates by 50%"}

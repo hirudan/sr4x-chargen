@@ -99,11 +99,26 @@ export class Character extends React.Component<CharacterProps, State> {
       this.errorLog.push(messages.error.exceeded_allowed_pos_quals.format(String(configs.qualMax)));
     if(Math.abs(this.state.qualDelta[1]) > configs.qualMax)
       this.errorLog.push(messages.error.exceeded_allowed_neg_quals.format(String(configs.qualMax)))
+    
+    // Rule: enforce quality requirements
+    this.state.qualities.map((quality: number) => {
+      let foundQuality = Character.getQualityById(quality);
+      if(foundQuality.requirements.length > 0){
+        if(!foundQuality.requirements.some(q => this.state.qualities.indexOf(q) !== -1)){
+          this.errorLog.push(messages.error.qual_req_not_met.format(Character.getQualityById(quality).name, 
+              Character.getQualityById(foundQuality.requirements[0]).name));
+        }
+      }
+    });
     return this.errorLog.length === 0;
   }
   
   private static getAttrFromConfig(metatype: string, statBlock: string): any{
     return raceData.metatypes.find(m => m.name === metatype)[statBlock] || null;
+  }
+  
+  private static getQualityById(id: number): Quality{
+    return qualData.qualities.find(q => q.id === id) || null;
   }
   
   makeErrorList(valid: boolean): any{

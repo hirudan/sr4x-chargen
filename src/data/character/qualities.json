@@ -216,7 +216,7 @@
       "selectable": true,
       "positive": false,
       "effect": "The character is at a 4DP penalty in all social interactions with a member of the target group",
-      "requirements": [8],
+      "requirements": [],
       "options": ["Dwarves", "Elves", "Humans", "Orks", "Trolls", "Un-Augmented"]
     }
 
