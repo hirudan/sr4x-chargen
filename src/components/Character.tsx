@@ -107,10 +107,10 @@ export class Character extends React.Component<CharacterProps, State> {
     // Rule: enforce quality requirements
     this.state.qualities.map((quality: number) => {
       let foundQuality = Character.getQualityById(quality);
-      if(foundQuality.requirements.length > 0){
-        if(!foundQuality.requirements.some(q => this.state.qualities.indexOf(q) !== -1)){
+      if(foundQuality.requirements.filter(r => r >= 0).length > 0){
+        if(!foundQuality.requirements.filter(r => r > 0).some(q => this.state.qualities.indexOf(q) !== -1)){
           this.errorLog.push(messages.error.qual_req_not_met.format(Character.getQualityById(quality).name, 
-              Character.getQualityById(foundQuality.requirements[0]).name));
+              messages.qualities[foundQuality.requirements[0]].name));
         }
       }
     });

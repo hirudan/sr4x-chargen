@@ -120,7 +120,7 @@ export class QualBox extends React.Component<QualProps, QualState>{
                                             (quality.selectable && quality.positive === this.state.posSelected &&
                                                 this.props.qualities.indexOf(quality.id) === -1) &&
                                             (quality.requirements.length > 0 ? 
-                                                quality.requirements.some(q => this.props.qualities.indexOf(q) !== -1) : true) &&
+                                                canDisplayQuality(quality.id, this.props.qualities) : true) &&
                                             <option key={quality.id}>{strings.qualities[quality.id]["name"]}</option>
                                         )})}
                                     </Form.Control>
@@ -141,6 +141,17 @@ export class QualBox extends React.Component<QualProps, QualState>{
 
 function getQuality(id: number): Quality{
     return strings.qualities[id];
+}
+
+function canDisplayQuality(id: number, qualities: Array<number>){
+    console.log(qualities);
+    let requirements: Array<number> = qualData.qualities.find(q => q.id === id).requirements;
+    let posSatisfied: boolean = requirements.filter(r => r>=0).length > 0 ? 
+        requirements.filter(r => r>=0).some(r => qualities.indexOf(r) !== -1) : true;
+    let negSatisfied: boolean = requirements.filter(r => r<0).length > 0 ? 
+        requirements.filter(r => r<0).every(r => qualities.indexOf(Math.abs(r)) === -1) : true;
+    
+    return posSatisfied && negSatisfied;
 }
 
 // Renders an individual quality item

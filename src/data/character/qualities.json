@@ -126,7 +126,7 @@
       "selectable": true,
       "positive": true,
       "effect": "The character is Awakened",
-      "requirements": [],
+      "requirements": [-9, -42],
       "options": ["Adept", "Mystic Adept", "Spellcaster", "Summoner", "Technomancer"]
     },
     {
@@ -226,7 +226,7 @@
       "selectable": true,
       "positive": true,
       "effect": "Allows the character to ignore 2 DP of sustained program / sustained spell / bound spirit / registered sprite penalties.",
-      "requirements": [8],
+      "requirements": [12],
       "options": []
     },
     {
@@ -236,7 +236,7 @@
       "selectable": true,
       "positive": true,
       "effect": "The character may treat Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to both Mana Ebbs and Mana Flows.",
-      "requirements": [8],
+      "requirements": [12],
       "options": []
     },
     {
@@ -286,7 +286,7 @@
       "selectable": true,
       "positive": true,
       "effect": "Allows a character’s MAG to exceed their ESS by 1 point. May be taken multiple times. This does NOT increase the MAG attribute itself; MAG is treated as a normal attribute, and is increased in the normal way.",
-      "requirements": [8],
+      "requirements": [12],
       "options": []
     },
     {
@@ -426,7 +426,7 @@
       "selectable": true,
       "positive": true,
       "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
-      "requirements": [],
+      "requirements": [-12],
       "options": []
     },
     {
@@ -526,7 +526,7 @@
       "selectable": true,
       "positive": false,
       "effect": "Astral signatures last twice as long",
-      "requirements": [],
+      "requirements": [-61],
       "options": []
     },
     {
