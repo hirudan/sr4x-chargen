@@ -80,6 +80,12 @@ export class MetaBox extends React.Component<MetaBoxProps, {}>{
                           onIncrement={this.props.onAttrIncrement}
                           onDecrement={this.props.onAttrDecrement}>
                 </ArrowBox>
+                {this.props.attributes.MAG > 0 && 
+                <ArrowBox name={Attribute.MAG}
+                          value={this.props.attributes.MAG}
+                          onIncrement={this.props.onAttrIncrement}
+                          onDecrement={this.props.onAttrDecrement}>
+                </ArrowBox>}
                 <p>
                 BOD&nbsp;
                 {this.props.attributes.BOD}

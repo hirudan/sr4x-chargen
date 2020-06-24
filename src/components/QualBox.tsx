@@ -3,7 +3,7 @@ import {Quality} from '../interfaces/Quality';
 import raceData from '../data/character/raceData.json';
 import qualData from '../data/character/qualities.json';
 import Modal from 'react-bootstrap/Modal';
-import * as messages from '../data/strings/en-us.json';
+import * as strings from '../data/strings/en-us.json';
 import * as configs from '../data/configs/config.json'
 import {Button, Form} from "react-bootstrap";
 import {ChangeEvent} from "react";
@@ -81,15 +81,15 @@ export class QualBox extends React.Component<QualProps, QualState>{
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            {messages.general.quality_title}
+                            {strings.general.quality_title}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p>
-                            {messages.general.quality_greeting}
+                            {strings.general.quality_greeting}
                         </p>
                         <p>
-                            {messages.general.quality_rules.format(configs.qualMax.toString())}
+                            {strings.general.quality_rules.format(configs.qualMax.toString())}
                         </p>
                         <div>
                             <Form onSubmit={this.handleClose}>
@@ -121,7 +121,7 @@ export class QualBox extends React.Component<QualProps, QualState>{
                                                 this.props.qualities.indexOf(quality.id) === -1) &&
                                             (quality.requirements.length > 0 ? 
                                                 quality.requirements.some(q => this.props.qualities.indexOf(q) !== -1) : true) &&
-                                            <option key={quality.id}>{quality.name}</option>
+                                            <option key={quality.id}>{strings.qualities[quality.id]["name"]}</option>
                                         )})}
                                     </Form.Control>
                                 </Form.Group>
@@ -140,7 +140,7 @@ export class QualBox extends React.Component<QualProps, QualState>{
 }
 
 function getQuality(id: number): Quality{
-    return qualData.qualities.find(quality => quality.id === id);
+    return strings.qualities[id];
 }
 
 // Renders an individual quality item
@@ -150,8 +150,8 @@ function buildQualityList(qualities: Array<number>, onRemove, metatype): any{
             <ul>
                 {qualities.map(function(quality){
                     let info = getQuality(quality);
-                    return (<li key={info.id}>{info.name}:&nbsp;{info.effect}&nbsp;{
-                        raceData.metatypes.find(m => m.name === metatype)["qualities"].indexOf(info.id) === -1 &&
+                    return (<li key={quality}>{info["name"]}:&nbsp;{info["desc"]}&nbsp;{
+                        raceData.metatypes.find(m => m.name === metatype)["qualities"].indexOf(quality) === -1 &&
                     <button onClick={() => onRemove(quality)}>--</button>}</li>)
                 })}
             </ul>

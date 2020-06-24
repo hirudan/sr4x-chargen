@@ -59,7 +59,7 @@
 				"LOG": 11,
 				"EDG": 10
 			},
-			"qualities": [ 15, 42, 24, 4 ]
+			"qualities": [ 24, 31, 37, 4 ]
 		},
 		{
 			"name": "Elf",
@@ -121,7 +121,7 @@
 				"LOG": 10,
 				"EDG": 10
 			},
-			"qualities": [ 3, 16 ]
+			"qualities": [ 3, 25 ]
 		},
 		{
 			"name": "Troll",

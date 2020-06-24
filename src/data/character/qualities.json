@@ -61,6 +61,16 @@
     },
     {
       "id": 6,
+      "name": "Ambush Predator",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP when rolling Initiative for Surprise Tests.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 7,
       "name": "Animal Empathy",
       "cost": 5,
       "selectable": true,
@@ -70,7 +80,27 @@
       "options": []
     },
     {
-      "id": 7,
+      "id": 8,
+      "name": "AR Savant",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character may treat Matrix Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to Dead Zones, Spam Zones, and Static Zones.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 9,
+      "name": "Artificer",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character may treat Matrix Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to Dead Zones, Spam Zones, and Static Zones.",
+      "requirements": [-12],
+      "options": []
+    },
+    {
+      "id": 10,
       "name": "Astral Chameleon",
       "cost": 10,
       "selectable": true,
@@ -80,7 +110,17 @@
       "options": []
     },
     {
-      "id": 8,
+      "id": 11,
+      "name": "Astute",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character may treat Matrix Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to Dead Zones, Spam Zones, and Static Zones.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 12,
       "name": "Awakened",
       "cost": 20,
       "selectable": true,
@@ -90,7 +130,37 @@
       "options": ["Adept", "Mystic Adept", "Spellcaster", "Summoner", "Technomancer"]
     },
     {
-      "id": 9,
+      "id": 13,
+      "name": "Beast Mode",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character may treat Matrix Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to Dead Zones, Spam Zones, and Static Zones.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 14,
+      "name": "Bilingual",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character may treat Matrix Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to Dead Zones, Spam Zones, and Static Zones.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 15,
+      "name": "Black Market Pipeline",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "The character may treat Matrix Background Counts as if they were effectively one point lower (offsetting 2 DP of penalties). This applies to Dead Zones, Spam Zones, and Static Zones.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 16,
       "name": "Blandness",
       "cost": 5,
       "selectable": true,
@@ -100,7 +170,27 @@
       "options": []
     },
     {
-      "id": 10,
+      "id": 17,
+      "name": "Compression Algorithm",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "-2 DP to remember or identify the character if they weren't acting memorably. This effect applies to the physical plane.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 18,
+      "name": "Digital Shadow",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "-2 DP to remember or identify the character if they weren't acting memorably. This effect applies to the physical plane.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 19,
       "name": "Double Jointed",
       "cost": 5,
       "selectable": true,
@@ -110,7 +200,7 @@
       "options": []
     },
     {
-      "id": 11,
+      "id": 20,
       "name": "Erased",
       "cost": 5,
       "selectable": true,
@@ -120,7 +210,7 @@
       "options": []
     },
     {
-      "id": 12,
+      "id": 21,
       "name": "First Impression",
       "cost": 5,
       "selectable": true,
@@ -130,7 +220,7 @@
       "options": []
     },
     {
-      "id": 13,
+      "id": 22,
       "name": "Focused Concentration",
       "cost": 5,
       "selectable": true,
@@ -140,7 +230,7 @@
       "options": []
     },
     {
-      "id": 14,
+      "id": 23,
       "name": "Geomantic Instincts",
       "cost": 5,
       "selectable": true,
@@ -150,7 +240,7 @@
       "options": []
     },
     {
-      "id": 15,
+      "id": 24,
       "name": "Guts",
       "cost": 5,
       "selectable": true,
@@ -160,7 +250,7 @@
       "options": []
     },
     {
-      "id": 16,
+      "id": 25,
       "name": "High Pain Tolerance",
       "cost": 5,
       "selectable": true,
@@ -170,17 +260,57 @@
       "options": []
     },
     {
-      "id": 24,
-      "name": "Resistance to Pathogens / Toxins",
+      "id": 26,
+      "name": "Home Ground",
       "cost": 5,
       "selectable": true,
       "positive": true,
-      "effect": "+2 DP vs Pathogens and Toxins",
+      "effect": "+2 DP to all active skill tests while on home turf (building or small neighborhood). +2 to all knowledge tests about it as well.",
       "requirements": [],
       "options": []
     },
     {
-      "id": 42,
+      "id": 27,
+      "name": "Human-Looking",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "Allows dwarves, elves, and orks to pass as human.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 28,
+      "name": "Initiate",
+      "cost": 10,
+      "selectable": true,
+      "positive": true,
+      "effect": "Allows a character’s MAG to exceed their ESS by 1 point. May be taken multiple times. This does NOT increase the MAG attribute itself; MAG is treated as a normal attribute, and is increased in the normal way.",
+      "requirements": [8],
+      "options": []
+    },
+    {
+      "id": 29,
+      "name": "Iron Will",
+      "cost": 20,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. WIL-related soak rolls",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 30,
+      "name": "Lightning Reflexes",
+      "cost": 10,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2DP for REA-related defense rolls",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 31,
       "name": "Mana Resistance",
       "cost": 5,
       "selectable": true,
@@ -190,13 +320,163 @@
       "options": []
     },
     {
-      "id": 47,
+      "id": 32,
+      "name": "Mentor Spirit",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [12],
+      "options": []
+    },
+    {
+      "id": 33,
+      "name": "Murky Link",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 34,
+      "name": "Natural Hardening",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 35,
+      "name": "Photographic Memory",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 36,
+      "name": "Quick Healer",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 37,
+      "name": "Resistance to Pathogens / Toxins",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs Pathogens and Toxins",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 38,
+      "name": "Sociopathish",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 39,
+      "name": "Spell Resistance",
+      "cost": 20,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 40,
+      "name": "Spirit Affinity",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 41,
+      "name": "Synthetic Sympathy",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 42,
+      "name": "The Sight",
+      "cost": 5,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 43,
+      "name": "Toughness",
+      "cost": 20,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 44,
+      "name": "Weaponized Subconscious",
+      "cost": 20,
+      "selectable": true,
+      "positive": true,
+      "effect": "+2 DP vs. all mana-based effects; any attempts to benefit the character with a mana-based spell or power is at a -2 DP penalty.",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 45,
+      "name": "Accident Prone",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 46,
       "name": "Astral Beacon",
       "cost": 5,
       "selectable": true,
       "positive": false,
       "effect": "Astral signatures last twice as long",
-      "requirements": [8],
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 47,
+      "name": "Code of Honor",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
       "options": []
     },
     {
@@ -210,7 +490,137 @@
       "options": []
     },
     {
-      "id": 68,
+      "id": 49,
+      "name": "Critter Spook",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 50,
+      "name": "Cursed",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 51,
+      "name": "Distinctive Style",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 52,
+      "name": "Elf Poser",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 53,
+      "name": "Forgetful",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 54,
+      "name": "Gremlins",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 55,
+      "name": "IC Magnet",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 56,
+      "name": "Infirm",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 57,
+      "name": "Insomnia",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 58,
+      "name": "Low Pain Tolerance",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 59,
+      "name": "Metaplane Famous",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 60,
+      "name": "Oblivious",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 61,
+      "name": "Ork Poser",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [-52],
+      "options": []
+    },
+    {
+      "id": 62,
       "name": "Prejudiced",
       "cost": 5,
       "selectable": true,
@@ -218,7 +628,76 @@
       "effect": "The character is at a 4DP penalty in all social interactions with a member of the target group",
       "requirements": [],
       "options": ["Dwarves", "Elves", "Humans", "Orks", "Trolls", "Un-Augmented"]
+    },
+    {
+      "id": 63,
+      "name": "Sensitive System",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 64,
+      "name": "SINner",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 65,
+      "name": "SLow on the Draw",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 66,
+      "name": "Social Stress",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 67,
+      "name": "Spirit Bane",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 68,
+      "name": "Virtual Personality",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
+    },
+    {
+      "id": 69,
+      "name": "Weak Immune System",
+      "cost": 5,
+      "selectable": true,
+      "positive": false,
+      "effect": "Astral signatures last twice as long",
+      "requirements": [],
+      "options": []
     }
-
   ]
 }

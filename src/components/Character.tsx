@@ -53,7 +53,7 @@ export class Character extends React.Component<CharacterProps, State> {
   
   private errorLog: Array<string> = new Array<string>();
   private valid: boolean = true;
-  private readonly AWAKENED_ID: number = 8;
+  private readonly AWAKENED_ID: number = 12;
 
   constructor(props: CharacterProps){
     super(props);
@@ -62,8 +62,8 @@ export class Character extends React.Component<CharacterProps, State> {
       metatype: "Human", // the character's metatype,
       qualities: new Array<number>(),
       qualDelta: [0,0],
-      attributes: {AGI: 3, REA: 3, STR: 3, CHA: 3, INT: 3, LOG: 3, EDG: 2, BOD: 3, INI: 6, ESS: 6, WIL: 3}, // The character's attribute array
-      attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points of attribute increase / sell-off have happened
+      attributes: {AGI: 3, REA: 3, STR: 3, CHA: 3, INT: 3, LOG: 3, EDG: 2, MAG: 0, BOD: 3, INI: 6, ESS: 6, WIL: 3}, // The character's attribute array
+      attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0, MAG: 0}, // How many points of attribute increase / sell-off have happened
       augAttrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points attributes have been increased by augmentation
       augSkillDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0} // How many points skills have been increased by augmentation
     };
@@ -95,9 +95,13 @@ export class Character extends React.Component<CharacterProps, State> {
     }
     // Rule: players shall not spend more than 20BP on qualities, nor shall they gain more than 20 in negative
     // qualities.
-    if(this.state.qualDelta[0] > configs.qualMax && this.state.qualities.indexOf(this.AWAKENED_ID) === -1)
+    let tempQualDelta = Object.assign({}, this.state.qualDelta);
+    if(this.state.qualities.indexOf(this.AWAKENED_ID) !== -1){
+      tempQualDelta[0] -= qualData.qualities[this.AWAKENED_ID].cost;
+    }
+    if(tempQualDelta[0] > configs.qualMax)
       this.errorLog.push(messages.error.exceeded_allowed_pos_quals.format(String(configs.qualMax)));
-    if(Math.abs(this.state.qualDelta[1]) > configs.qualMax)
+    if(Math.abs(tempQualDelta[1]) > configs.qualMax)
       this.errorLog.push(messages.error.exceeded_allowed_neg_quals.format(String(configs.qualMax)))
     
     // Rule: enforce quality requirements
