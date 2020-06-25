@@ -53,7 +53,10 @@ export class Character extends React.Component<CharacterProps, State> {
   
   private errorLog: Array<string> = new Array<string>();
   private valid: boolean = true;
-  private readonly AWAKENED_ID: number = 12;
+  private readonly AWAKENED_ID: number = 12; 
+  private readonly SIGHT_ID: number = 42;
+  private readonly ARTIFICER_ID: number = 9;
+  private readonly INITIATE_ID: number = 28;
 
   constructor(props: CharacterProps){
     super(props);
@@ -76,11 +79,44 @@ export class Character extends React.Component<CharacterProps, State> {
   
   // Updates the derived attributes of BOD, ESS (eventually, after cyberware is implemented), INI, and WIL on the 
   // given attribute array
-  private static updateDerivedAttributes(toUpdate: AttrArray): void{
+  private async updateDerivedAttributes(toUpdate: AttrArray): Promise<any>{
     toUpdate.BOD = Math.floor((toUpdate.AGI + toUpdate.REA + toUpdate.STR)/3);
     toUpdate.ESS = 6; // Will compute when cyberware is implemented
     toUpdate.INI = toUpdate.INT + toUpdate.REA;
     toUpdate.WIL = Math.floor((toUpdate.CHA + toUpdate.INT + toUpdate.LOG)/3);
+    if(this.state.qualities.indexOf(this.AWAKENED_ID) !== -1 ||
+      this.state.qualities.indexOf(this.SIGHT_ID) !== -1 ||
+      this.state.qualities.indexOf(this.ARTIFICER_ID) !== -1){
+      toUpdate.MAG = 1 + this.state.attrDelta.MAG;
+    }
+    else{
+      // Refund magic BP if you delete your last magic quality
+      toUpdate.MAG = 0;
+      let newDelta = Object.assign({},this.state.attrDelta);
+      newDelta.MAG = 0;
+      let newBp: number = this.state.bp + this.state.attrDelta.MAG * configs.attrCost;
+      console.log(newBp);
+      this.setState({
+        bp: newBp,
+        attrDelta: newDelta
+      });
+    }
+  }
+
+  makeErrorList(valid: boolean): any{
+    if(!valid){
+      return(
+          <div>
+            Error(s) encountered:
+            <ul>
+              {this.errorLog.map(function(error){
+                return <li>{error}</li>
+              })}
+            </ul>
+          </div>
+      );
+    }
+    return null;
   }
   
   // Runs a series of checks on the Character object and determines if it is valid or not.
@@ -114,6 +150,20 @@ export class Character extends React.Component<CharacterProps, State> {
         }
       }
     });
+    
+    // Rule: enforce magic limits from essence
+    let initGrade: number = this.state.qualities.indexOf(this.INITIATE_ID) === -1 ? 0 : 1; 
+    if(this.state.attributes.MAG > Math.floor(this.state.attributes.ESS) + initGrade){
+      this.errorLog.push(messages.error.exceeded_max_mag_ess.format(String(this.state.attributes.MAG), 
+          String(this.state.attributes.ESS), String(initGrade)));
+    }
+    
+    // Rule: enforce magic limits from qualities
+    if((this.state.qualities.indexOf(this.ARTIFICER_ID) !== -1 || this.state.qualities.indexOf(this.SIGHT_ID) !== -1) && this.state.attributes.MAG > 1){
+      this.errorLog.push(messages.error.exceeded_max_mag_qual.format(String(this.state.attributes.MAG), 
+          messages.qualities[this.ARTIFICER_ID].name, messages.qualities[this.SIGHT_ID].name));
+    }
+    
     return this.errorLog.length === 0;
   }
   
@@ -123,22 +173,6 @@ export class Character extends React.Component<CharacterProps, State> {
   
   private static getQualityById(id: number): Quality{
     return qualData.qualities.find(q => q.id === id) || null;
-  }
-  
-  makeErrorList(valid: boolean): any{
-    if(!valid){
-      return(
-        <div>
-          Error(s) encountered:
-          <ul>
-            {this.errorLog.map(function(error){
-              return <li>{error}</li>
-            })}
-          </ul>
-        </div>  
-      );
-    }
-    return null;
   }
   
   render(){
@@ -177,7 +211,7 @@ export class Character extends React.Component<CharacterProps, State> {
        }
      }
      let new_averages: AttrArray = Object.assign({}, Character.getAttrFromConfig(newMetatype, averages));
-     Character.updateDerivedAttributes(new_averages);
+     this.updateDerivedAttributes(new_averages);
      
      // Refund BP if attributes were changed
      for(let x in this.state.attrDelta) {
@@ -220,7 +254,7 @@ export class Character extends React.Component<CharacterProps, State> {
 
    // Recipient: MetaBox
    // Purpose  : Increments selected attribute
-   onAttrIncrement(attr: Attribute){
+   async onAttrIncrement(attr: Attribute){
      let deltaBp: number = (this.state.attrDelta[attr] >= 0) ? -1 * configs.attrCost : -1 * configs.sellAttrCost;
      let deltaAttr: number = 1;
      // Rule: raising an attribute to its racial max costs 1.5x the normal attribute cost
@@ -232,7 +266,7 @@ export class Character extends React.Component<CharacterProps, State> {
      let newAttributeDelta = this.state.attrDelta;
      newAttributes[attr] += 1;
      newAttributeDelta[attr] += deltaAttr;
-     Character.updateDerivedAttributes(newAttributes);
+     await this.updateDerivedAttributes(newAttributes);
      this.setState({
        bp: this.state.bp + deltaBp,
        attributes: newAttributes,
@@ -242,7 +276,7 @@ export class Character extends React.Component<CharacterProps, State> {
 
    // Recipient: MetaBox
    // Purpose  : Decrements selected attribute
-   onAttrDecrement(attr: Attribute){
+   async onAttrDecrement(attr: Attribute){
      if(this.state.attributes[attr] <= 1)
        return;
      let deltaBp: number = (this.state.attrDelta[attr] <= 0) ? configs.sellAttrCost : configs.attrCost;
@@ -255,7 +289,7 @@ export class Character extends React.Component<CharacterProps, State> {
      let newAttributeDelta = this.state.attrDelta;
      newAttributes[attr] -= 1;
      newAttributeDelta[attr] -= deltaAttr;
-     Character.updateDerivedAttributes(newAttributes);
+     await this.updateDerivedAttributes(newAttributes);
      this.setState({
        bp: this.state.bp + deltaBp,
        attributes: newAttributes,
@@ -265,7 +299,7 @@ export class Character extends React.Component<CharacterProps, State> {
    
    // Recipient: QualBox
    // Purpose: Adds a quality to the character's qualities
-  onAddQuality(toAdd: number){
+  async onAddQuality(toAdd: number){
      let quality: Quality = qualData.qualities.find(q => q.id === toAdd);
      let newQualities = this.state.qualities;
      newQualities.push(quality?.id);
@@ -280,6 +314,8 @@ export class Character extends React.Component<CharacterProps, State> {
      }
      let newQualDelta: [number, number] = this.state.qualDelta;
      newQualDelta[column] += quality?.cost;
+     
+     await this.updateDerivedAttributes(this.state.attributes);
       
      this.setState({
        bp: this.state.bp + sign * quality?.cost,
@@ -291,7 +327,7 @@ export class Character extends React.Component<CharacterProps, State> {
   
   // Recipient: QualBox
   // Purpose: Removes a quality from the character's qualities
-  onRemoveQuality(toRemove: number){
+  async onRemoveQuality(toRemove: number){
     let quality: Quality = qualData.qualities.find(q => q.id === toRemove);
     let newQualities = this.state.qualities;
     newQualities.splice(this.state.qualities.indexOf(toRemove),1);
@@ -306,6 +342,8 @@ export class Character extends React.Component<CharacterProps, State> {
     }
     let newQualDelta: [number, number] = this.state.qualDelta;
     newQualDelta[column] -= quality?.cost;
+    
+    await this.updateDerivedAttributes(this.state.attributes);
 
     this.setState({
           bp: this.state.bp + sign * quality?.cost,

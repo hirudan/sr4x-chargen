@@ -9,7 +9,8 @@
     "exceeded_allowed_neg_quals": "Exceeded allowed value {0}BP of negative qualities",
     "exceeded_allowed_pos_quals": "Exceeded allowed value {0}BP of positive qualities",
     "qual_req_not_met": "Quality {0} requires quality {1}",
-    "exceeded_allowed_mag_sight": "Exceeded allowed MAG value of 1 for quality {0}"
+    "exceeded_max_mag_ess": "MAG value {0} is exceeds allowed max of ESS {1} plus Initiate Grade {2}",
+    "exceeded_max_mag_qual": "MAG value {0} exceeds allowed max of 1 with qualities {1} or {2}"
   },
   "qualities": {
     "0": {"name": "Celerity", "desc": "Increase base movement rates by 50%"},

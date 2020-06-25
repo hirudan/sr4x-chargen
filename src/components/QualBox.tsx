@@ -144,7 +144,6 @@ function getQuality(id: number): Quality{
 }
 
 function canDisplayQuality(id: number, qualities: Array<number>){
-    console.log(qualities);
     let requirements: Array<number> = qualData.qualities.find(q => q.id === id).requirements;
     let posSatisfied: boolean = requirements.filter(r => r>=0).length > 0 ? 
         requirements.filter(r => r>=0).some(r => qualities.indexOf(r) !== -1) : true;
