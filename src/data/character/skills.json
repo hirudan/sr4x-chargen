@@ -1,0 +1,565 @@
+﻿{
+  "skills": [{
+    "id": 0,
+    "name": "Armed Combat",
+    "linkedAttr": ["AGI"],
+    "reqAwakened": false,
+    "group": 0
+  },
+    {
+      "id": 1,
+      "name": "Thrown Weapons",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 0
+    },
+    {
+      "id": 2,
+      "name": "Unarmed Combat",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 0
+    },
+    {
+      "id": 3,
+      "name": "Archery",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 1
+    },
+    {
+      "id": 4,
+      "name": "Firearms",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 1
+    },
+    {
+      "id": 5,
+      "name": "Heavy Weapons",
+      "linkedAttr": ["STR"],
+      "reqAwakened": false,
+      "group": 1
+    },
+    {
+      "id": 6,
+      "name": "Armorer",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 2
+    },
+    {
+      "id": 7,
+      "name": "Demolitions",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 2
+    },
+    {
+      "id": 8,
+      "name": "Gunnery",
+      "linkedAttr": ["AGI", "LOG"],
+      "reqAwakened": false,
+      "group": 2
+    },
+    {
+      "id": 9,
+      "name": "Climbing",
+      "linkedAttr": ["STR"],
+      "reqAwakened": false,
+      "group": 3
+    },
+    {
+      "id": 10,
+      "name": "Gymnastics",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 3
+    },
+    {
+      "id": 11,
+      "name": "Running",
+      "linkedAttr": ["STR"],
+      "reqAwakened": false,
+      "group": 3
+    },
+    {
+      "id": 12,
+      "name": "Swimming",
+      "linkedAttr": ["STR"],
+      "reqAwakened": false,
+      "group": 3
+    },
+    {
+      "id": 13,
+      "name": "Disguise",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false,
+      "group": 4
+    },
+    {
+      "id": 14,
+      "name": "Infiltration",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 4
+    },
+    {
+      "id": 15,
+      "name": "Shadowing",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false,
+      "group": 4
+    },
+    {
+      "id": 16,
+      "name": "Escape Artist",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 5
+    },
+    {
+      "id": 17,
+      "name": "Forgery",
+      "linkedAttr": ["AGI", "LOG"],
+      "reqAwakened": false,
+      "group": 5
+    },
+    {
+      "id": 18,
+      "name": "Locksmith",
+      "linkedAttr": ["AGI", "LOG"],
+      "reqAwakened": false,
+      "group": 5
+    },
+    {
+      "id": 19,
+      "name": "Palming",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 5
+    },
+    {
+      "id": 20,
+      "name": "Lighter-Than-Air Vehicles",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 6
+    },
+    {
+      "id": 21,
+      "name": "Rotorcraft",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 6
+    },
+    {
+      "id": 22,
+      "name": "Vectored Thrust Vehicles",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 6
+    },
+    {
+      "id": 23,
+      "name": "Anthroforms",
+      "linkedAttr": ["AGI"],
+      "reqAwakened": false,
+      "group": 7
+    },
+    {
+      "id": 24,
+      "name": "Tracked Vehicles",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 7
+    },
+    {
+      "id": 25,
+      "name": "Wheeled Vehicles",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 7
+    },
+    {
+      "id": 26,
+      "name": "Motorcraft",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 8
+    },
+    {
+      "id": 27,
+      "name": "Sailcraft",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 8
+    },
+    {
+      "id": 28,
+      "name": "Submersibles",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false,
+      "group": 8
+    },
+    {
+      "id": 29,
+      "name": "Chemistry",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 9
+    },
+    {
+      "id": 30,
+      "name": "Cybertechnology",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 9
+    },
+    {
+      "id": 31,
+      "name": "First Aid",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 9
+    },
+    {
+      "id": 32,
+      "name": "Medicine",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 9
+    },
+    {
+      "id": 33,
+      "name": "Aeronautics Mechanic",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 10
+    },
+    {
+      "id": 34,
+      "name": "Automotive Mechanic",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 10
+    },
+    {
+      "id": 35,
+      "name": "Industrial Mechanic",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 10
+    },
+    {
+      "id": 36,
+      "name": "Nautical Mechanic",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 10
+    },
+    {
+      "id": 37,
+      "name": "Navigation",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false,
+      "group": 11
+    },
+    {
+      "id": 38,
+      "name": "Survival",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false,
+      "group": 11
+    },
+    {
+      "id": 39,
+      "name": "Tracking",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false,
+      "group": 11
+    },
+    {
+      "id": 40,
+      "name": "Con",
+      "linkedAttr": ["CHA"],
+      "reqAwakened": false,
+      "group": 12
+    },
+    {
+      "id": 41,
+      "name": "Etiquette",
+      "linkedAttr": ["CHA"],
+      "reqAwakened": false,
+      "group": 12
+    },
+    {
+      "id": 42,
+      "name": "Intimidation",
+      "linkedAttr": ["CHA"],
+      "reqAwakened": false,
+      "group": 12
+    },
+    {
+      "id": 43,
+      "name": "Negotiation",
+      "linkedAttr": ["CHA"],
+      "reqAwakened": false,
+      "group": 12
+    },
+    {
+      "id": 44,
+      "name": "Instruction",
+      "linkedAttr": ["CHA"],
+      "reqAwakened": false,
+      "group": 13
+    },
+    {
+      "id": 45,
+      "name": "Leadership",
+      "linkedAttr": ["CHA"],
+      "reqAwakened": false,
+      "group": 13
+    },
+    {
+      "id": 46,
+      "name": "Performance",
+      "linkedAttr": ["CHA"],
+      "reqAwakened": false,
+      "group": 13
+    },
+    {
+      "id": 47,
+      "name": "Chirurgy",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 14
+    },
+    {
+      "id": 48,
+      "name": "Scrying",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 14
+    },
+    {
+      "id": 49,
+      "name": "Counterspelling",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 14
+    },
+    {
+      "id": 50,
+      "name": "Sorcery",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 15
+    },
+    {
+      "id": 51,
+      "name": "Trammeling",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 15
+    },
+    {
+      "id": 52,
+      "name": "Hexing",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 15
+    },
+    {
+      "id": 53,
+      "name": "Summoning",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 16
+    },
+    {
+      "id": 54,
+      "name": "Binding",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 16
+    },
+    {
+      "id": 55,
+      "name": "Banishing",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 16
+    },
+    {
+      "id": 56,
+      "name": "Invoking",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 17
+    },
+    {
+      "id": 57,
+      "name": "Bonding",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 17
+    },
+    {
+      "id": 58,
+      "name": "Exorcizing",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 17
+    },
+    {
+      "id": 59,
+      "name": "Arcana",
+      "linkedAttr": ["INT"],
+      "reqAwakened": true,
+      "group": 18
+    },
+    {
+      "id": 60,
+      "name": "Artificing",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": false,
+      "group": 18
+    },
+    {
+      "id": 61,
+      "name": "Ritual Magic",
+      "linkedAttr": ["MAG"],
+      "reqAwakened": true,
+      "group": 18
+    },
+    {
+      "id": 62,
+      "name": "Computer",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 19
+    },
+    {
+      "id": 63,
+      "name": "Data Search",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 19
+    },
+    {
+      "id": 64,
+      "name": "Cybercombat",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 20
+    },
+    {
+      "id": 65,
+      "name": "Electronic Warfare",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 20
+    },
+    {
+      "id": 66,
+      "name": "Hacking",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 20
+    },
+    {
+      "id": 67,
+      "name": "Software",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 21
+    },
+    {
+      "id": 68,
+      "name": "Hardware",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 21
+    },
+    {
+      "id": 69,
+      "name": "Data Processing",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 21
+    },
+    {
+      "id": 70,
+      "name": "Compiling",
+      "linkedAttr": ["RES"],
+      "reqAwakened": true,
+      "group": 22
+    },
+    {
+      "id": 71,
+      "name": "Registering",
+      "linkedAttr": ["RES"],
+      "reqAwakened": true,
+      "group": 22
+    },
+    {
+      "id": 72,
+      "name": "Decompiling",
+      "linkedAttr": ["RES"],
+      "reqAwakened": true,
+      "group": 22
+    },
+    {
+      "id": 73,
+      "name": "Assembling",
+      "linkedAttr": ["RES"],
+      "reqAwakened": true,
+      "group": 23
+    },
+    {
+      "id": 74,
+      "name": "Redacting",
+      "linkedAttr": ["RES"],
+      "reqAwakened": true,
+      "group": 23
+    },
+    {
+      "id": 75,
+      "name": "Expunging",
+      "linkedAttr": ["RES"],
+      "reqAwakened": true,
+      "group": 23
+    },
+    {
+      "id": 76,
+      "name": "Artisan",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false
+    },
+    {
+      "id": 77,
+      "name": "Assensing",
+      "linkedAttr": ["INT"],
+      "reqAwakened": true
+    },
+    {
+      "id": 78,
+      "name": "Dodge",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false
+    },
+    {
+      "id": 79,
+      "name": "Perception",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false
+    },
+    {
+      "id": 80,
+      "name": "Matrix Perception",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false
+    }
+  ]
+}

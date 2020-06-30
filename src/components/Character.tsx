@@ -5,10 +5,12 @@ import * as Console from "console";
 import {AttrArray} from "../interfaces/AttrArray";
 import {QualBox} from "./QualBox";
 import {Quality} from "../interfaces/Quality";
+import {Skill} from "../interfaces/Skill";
 
 import configs from '../data/configs/config.json';
 import raceData from '../data/character/raceData.json';
 import qualData from '../data/character/qualities.json';
+import skillData from '../data/character/skills.json'
 import * as messages from '../data/strings/en-us.json';
 
 export interface CharacterProps {name?: string; bp?: number}
@@ -40,7 +42,8 @@ interface State {
   attributes: AttrArray,
   attrDelta: AttrArray,
   augAttrDelta: AttrArray,
-  augSkillDelta: AttrArray
+  augSkillDelta: AttrArray,
+  skills: any
 }
 
 const averages = "attr_averages", softcaps = "attr_softcaps", hardcaps = "attr_hardcaps";
@@ -53,7 +56,7 @@ export class Character extends React.Component<CharacterProps, State> {
   
   private errorLog: Array<string> = new Array<string>();
   private valid: boolean = true;
-  private readonly AWAKENED_ID: number = 12; 
+  private readonly AWAKENED_ID: number = 12;
   private readonly SIGHT_ID: number = 42;
   private readonly ARTIFICER_ID: number = 9;
   private readonly INITIATE_ID: number = 28;
@@ -68,13 +71,16 @@ export class Character extends React.Component<CharacterProps, State> {
       attributes: {AGI: 3, REA: 3, STR: 3, CHA: 3, INT: 3, LOG: 3, EDG: 2, MAG: 0, BOD: 3, INI: 6, ESS: 6, WIL: 3}, // The character's attribute array
       attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0, MAG: 0}, // How many points of attribute increase / sell-off have happened
       augAttrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points attributes have been increased by augmentation
-      augSkillDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0} // How many points skills have been increased by augmentation
+      augSkillDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points skills have been increased by augmentation
+      skills: "desu"
     };
     this.onMetatypeChanged = this.onMetatypeChanged.bind(this);
     this.onAttrIncrement = this.onAttrIncrement.bind(this);
     this.onAttrDecrement = this.onAttrDecrement.bind(this);
     this.onAddQuality = this.onAddQuality.bind(this);
     this.onRemoveQuality = this.onRemoveQuality.bind(this);
+    this.onAddSkill = this.onAddSkill.bind(this);
+    this.onRemoveSkill = this.onRemoveSkill.bind(this);
   }
   
   // Updates the derived attributes of BOD, ESS (eventually, after cyberware is implemented), INI, and WIL on the 
@@ -353,4 +359,44 @@ export class Character extends React.Component<CharacterProps, State> {
     );
   }
   
+  // Recipient: SkillBox
+  // Purpose: Adds a skill or skill group to the character's active skills
+  onAddSkill(toAdd: number, isGroup: boolean){
+     let deltaBp: number = 0;
+     let newSkills: Object = {};
+     if(isGroup){
+       skillData.skills.filter(skill => skill.group === toAdd).map(skill => newSkills[skill.id] = 1);
+       deltaBp -= configs.skillGroupCost;
+     }
+     else{
+       newSkills[toAdd] = 1;
+       deltaBp -= configs.skillCost;
+     }
+     
+     this.setState({
+       bp: this.state.bp + deltaBp,
+       skills: newSkills
+    })
+  }
+
+  // Recipient: SkillBox
+  // Purpose: Adds a skill or skill group to the character's active skills
+  onRemoveSkill(toAdd: number, isGroup: boolean){
+    let deltaBp: number = 0;
+    let newSkills: Object = {};
+    if(isGroup){
+      skillData.skills.filter(skill => skill.group === toAdd).map(skill => delete newSkills[skill.id] 
+          || console.log("hauu nanodesu"));
+      deltaBp += configs.skillGroupCost;
+    }
+    else{
+      newSkills[toAdd] = 1;
+      deltaBp += configs.skillCost;
+    }
+
+    this.setState({
+      bp: this.state.bp + deltaBp,
+      skills: newSkills
+    })
+  }
 }

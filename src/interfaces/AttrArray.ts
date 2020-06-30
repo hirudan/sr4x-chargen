@@ -8,6 +8,7 @@ export interface AttrArray {
     LOG: number,
     EDG: number,
     MAG?: number,
+    RES?: number,
     BOD?: number,
     ESS?: number,
     INI?: number,
