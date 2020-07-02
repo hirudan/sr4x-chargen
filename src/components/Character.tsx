@@ -72,7 +72,7 @@ export class Character extends React.Component<CharacterProps, State> {
       attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0, MAG: 0}, // How many points of attribute increase / sell-off have happened
       augAttrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points attributes have been increased by augmentation
       augSkillDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points skills have been increased by augmentation
-      skills: "desu"
+      skills: { }
     };
     this.onMetatypeChanged = this.onMetatypeChanged.bind(this);
     this.onAttrIncrement = this.onAttrIncrement.bind(this);
@@ -81,6 +81,8 @@ export class Character extends React.Component<CharacterProps, State> {
     this.onRemoveQuality = this.onRemoveQuality.bind(this);
     this.onAddSkill = this.onAddSkill.bind(this);
     this.onRemoveSkill = this.onRemoveSkill.bind(this);
+    this.onIncrementSkill = this.onIncrementSkill.bind(this);
+    this.onDecrementSkill = this.onDecrementSkill.bind(this);
   }
   
   // Updates the derived attributes of BOD, ESS (eventually, after cyberware is implemented), INI, and WIL on the 
@@ -392,6 +394,48 @@ export class Character extends React.Component<CharacterProps, State> {
     else{
       newSkills[toAdd] = 1;
       deltaBp += configs.skillCost;
+    }
+
+    this.setState({
+      bp: this.state.bp + deltaBp,
+      skills: newSkills
+    })
+  }
+  
+  // Recipient: SkillBox
+  // Purpose: Increments the rating of a skill or skill group
+  onIncrementSkill(toBump: number, isGroup: boolean){
+    let deltaBp: number = 0;
+    let newSkills = Object.assign({}, this.state.skills);
+    
+    if(isGroup){
+      deltaBp -= configs.skillGroupCost;
+      newSkills.keys.map(skill => {if(skillData.skills[skill].group === toBump) newSkills[toBump] += 1});
+    }
+    else{
+      newSkills[toBump] >= configs.skillMax - 1 ? deltaBp -= 2* configs.skillCost : deltaBp -= configs.skillCost;
+      newSkills[toBump]++;
+    }
+    
+    this.setState({
+      bp: this.state.bp + deltaBp,
+      skills: newSkills
+    })
+  }
+
+  // Recipient: SkillBox
+  // Purpose: Increments the rating of a skill or skill group
+  onDecrementSkill(toNerf: number, isGroup: boolean){
+    let deltaBp: number = 0;
+    let newSkills = Object.assign({}, this.state.skills);
+
+    if(isGroup){
+      deltaBp += configs.skillGroupCost;
+      newSkills.keys.map(skill => {if(skillData.skills[skill].group === toNerf) newSkills[toNerf] -= 1});
+    }
+    else{
+      newSkills[toNerf] >= configs.skillMax ? deltaBp += 2* configs.skillCost : deltaBp += configs.skillCost;
+      newSkills[toNerf]++;
     }
 
     this.setState({
