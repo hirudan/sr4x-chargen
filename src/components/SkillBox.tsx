@@ -1,6 +1,7 @@
 import React from 'react';
 import {Skill} from '../interfaces/Skill';
 import skillData from '../data/character/skills.json';
+import {Attribute} from "./Enums";
 
 export interface SkillProps{
     skills: Object,
@@ -38,11 +39,12 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
     }
     
     buildSkillGroups(){
-        let rawSkills: Skill[] = skillData.skills;
         let groupedSkills = { };
-        for(let s in skillData.skills){
-            
-        }
+        // As a convention, assign non-grouped skills to "group -1"
+        skillData.skills.map((skill: Skill) => {isNaN(skill.group) ? groupedSkills[-1].append(skill.id) : 
+            groupedSkills[skill.group].append(skill.id)})
+        
+        return groupedSkills;
     }
 }
 

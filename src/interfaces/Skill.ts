@@ -5,5 +5,5 @@ export interface Skill {
     name: string,
     linkedAttr: Array<Attribute>,
     reqAwakened: boolean,
-    group?: number
+    group: number
 }
