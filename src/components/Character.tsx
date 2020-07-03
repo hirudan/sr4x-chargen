@@ -12,6 +12,7 @@ import raceData from '../data/character/raceData.json';
 import qualData from '../data/character/qualities.json';
 import skillData from '../data/character/skills.json'
 import * as messages from '../data/strings/en-us.json';
+import {SkillBox} from "./SkillBox";
 
 export interface CharacterProps {name?: string; bp?: number}
 
@@ -198,6 +199,12 @@ export class Character extends React.Component<CharacterProps, State> {
                onAdd={this.onAddQuality}
                onRemove={this.onRemoveQuality}
                metatype={this.state.metatype}/>
+      <SkillBox skills={this.state.skills} 
+                qualities={this.state.qualities}
+                onAdd={this.onAddSkill}
+                onRemove={this.onRemoveSkill}
+                onIncrement={this.onIncrementSkill}
+                onDecrement={this.onDecrementSkill} />
     </div>);
   }
 

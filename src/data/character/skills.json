@@ -449,122 +449,129 @@
     },
     {
       "id": 64,
+      "name": "Signal Defense",
+      "linkedAttr": ["LOG"],
+      "reqAwakened": false,
+      "group": 19
+    },
+    {
+      "id": 65,
       "name": "Cybercombat",
       "linkedAttr": ["LOG"],
       "reqAwakened": false,
       "group": 20
     },
     {
-      "id": 65,
+      "id": 66,
       "name": "Electronic Warfare",
       "linkedAttr": ["LOG"],
       "reqAwakened": false,
       "group": 20
     },
     {
-      "id": 66,
+      "id": 67,
       "name": "Hacking",
       "linkedAttr": ["LOG"],
       "reqAwakened": false,
       "group": 20
     },
     {
-      "id": 67,
+      "id": 68,
       "name": "Software",
       "linkedAttr": ["LOG"],
       "reqAwakened": false,
       "group": 21
     },
     {
-      "id": 68,
+      "id": 69,
       "name": "Hardware",
       "linkedAttr": ["LOG"],
       "reqAwakened": false,
       "group": 21
     },
     {
-      "id": 69,
+      "id": 70,
       "name": "Data Processing",
       "linkedAttr": ["LOG"],
       "reqAwakened": false,
       "group": 21
     },
     {
-      "id": 70,
+      "id": 71,
       "name": "Compiling",
       "linkedAttr": ["RES"],
       "reqAwakened": true,
       "group": 22
     },
     {
-      "id": 71,
+      "id": 72,
       "name": "Registering",
       "linkedAttr": ["RES"],
       "reqAwakened": true,
       "group": 22
     },
     {
-      "id": 72,
+      "id": 73,
       "name": "Decompiling",
       "linkedAttr": ["RES"],
       "reqAwakened": true,
       "group": 22
     },
     {
-      "id": 73,
+      "id": 74,
       "name": "Assembling",
       "linkedAttr": ["RES"],
       "reqAwakened": true,
       "group": 23
     },
     {
-      "id": 74,
+      "id": 75,
       "name": "Redacting",
       "linkedAttr": ["RES"],
       "reqAwakened": true,
       "group": 23
     },
     {
-      "id": 75,
+      "id": 76,
       "name": "Expunging",
       "linkedAttr": ["RES"],
       "reqAwakened": true,
       "group": 23
     },
     {
-      "id": 76,
+      "id": 77,
       "name": "Artisan",
       "linkedAttr": ["INT"],
       "reqAwakened": false,
-      "group": NaN
-    },
-    {
-      "id": 77,
-      "name": "Assensing",
-      "linkedAttr": ["INT"],
-      "reqAwakened": true,
-      "group": NaN
+      "group": -1
     },
     {
       "id": 78,
-      "name": "Dodge",
-      "linkedAttr": ["REA"],
-      "reqAwakened": false, 
-      "group": NaN
+      "name": "Assensing",
+      "linkedAttr": ["INT"],
+      "reqAwakened": true,
+      "group": -1
     },
     {
       "id": 79,
-      "name": "Perception",
-      "linkedAttr": ["INT"],
-      "reqAwakened": false,
-      "group": NaN
+      "name": "Dodge",
+      "linkedAttr": ["REA"],
+      "reqAwakened": false, 
+      "group": -1
     },
     {
       "id": 80,
+      "name": "Perception",
+      "linkedAttr": ["INT"],
+      "reqAwakened": false,
+      "group": -1
+    },
+    {
+      "id": 81,
       "name": "Matrix Perception",
       "linkedAttr": ["INT"],
       "reqAwakened": false,
-      "group": NaN
+      "group": -1
     }
   ]
 }
