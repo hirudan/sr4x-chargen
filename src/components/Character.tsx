@@ -390,16 +390,16 @@ export class Character extends React.Component<CharacterProps, State> {
 
   // Recipient: SkillBox
   // Purpose: Adds a skill or skill group to the character's active skills
-  onRemoveSkill(toAdd: number, isGroup: boolean){
+  onRemoveSkill(toRemove: number, isGroup: boolean){
     let deltaBp: number = 0;
-    let newSkills: Object = {};
+    let newSkills: Object = Object.assign({}, this.state.skills);
     if(isGroup){
-      skillData.skills.filter(skill => skill.group === toAdd).map(skill => delete newSkills[skill.id] 
+      skillData.skills.filter(skill => skill.group === toRemove).map(skill => delete newSkills[skill.id] 
           || console.log("hauu nanodesu"));
       deltaBp += configs.skillGroupCost;
     }
     else{
-      newSkills[toAdd] = 1;
+      delete newSkills[toRemove];
       deltaBp += configs.skillCost;
     }
 

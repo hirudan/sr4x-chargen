@@ -5,8 +5,7 @@ import {Button, Form} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import * as strings from "../data/strings/en-us.json";
 import * as configs from "../data/configs/config.json";
-import qualData from "../data/character/qualities.json";
-import {Quality} from "../interfaces/Quality";
+import {ArrowBox} from "./ArrowBox";
 
 export interface SkillProps{
     skills: Object,
@@ -21,6 +20,8 @@ interface SkillState{
     showModal: boolean,
     selectedSkill: string
 }
+
+const AWAKENED_ID: number = 12;
 
 export class SkillBox extends React.Component<SkillProps, SkillState>{
     
@@ -50,11 +51,28 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
         this.props.onAdd(index);
         this.handleClose();
     }
+
+    // Renders an individual quality item
+    buildSkillList(): any{
+        return(
+            <div>
+                <ul>
+                    {Object.keys(this.props.skills).map(function(skill){
+                        let info = getSkillById(Number(skill));
+                        return (<li key={skill}>{info.name}
+                        {<ArrowBox name="" value={this.props.skills[skill]} onIncrement={this.props.onIncrement} onDecrement={this.props.onDecrement} />}
+                        {<button onClick={() => this.props.onRemove(skill)}>--</button>}</li>)
+                    })}
+                </ul>
+            </div>
+        );
+    }
     
     render(){
         return(
             <div>
                 Active Skills:
+                {this.buildSkillList}
                 <Button onClick={this.handleShow}>++</Button>
                 <Modal show={this.state.showModal} onHide={this.handleClose}
                        size="lg"
@@ -78,9 +96,12 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
                                 <Form.Group controlId="skillSelect">
                                     <Form.Control as="select" onChange={this.onSkillChange}>
                                         <option key={"default"}>...</option>
-                                        {skillData.skills.map((skill) => {return(canDisplaySkill(skill.id, this.props.qualities) && 
-                                            <option>{strings.skills[skill.id]}&emsp;{skill.linkedAttr.map(attr => {return(attr + "\t")})}</option>
-                                        )})}
+                                        {Object.keys(buildSkillGroups()).map(id => {return(
+                                            <option key={id}>{strings.skillGroups[id]}</option> && 
+                                            skillData.skills.filter(skill => skill.group === Number(id)).map(skill => {return(<option key={skill.id}>&emsp;{strings.skills[skill.id]}</option>)}))})}
+                                        {/*{skillData.skills.map((skill) => {return(canDisplaySkill(skill.id, this.props.qualities) && */}
+                                        {/*    <option>{strings.skills[skill.id]}&emsp;({skill.linkedAttr.join(",")})</option>*/}
+                                        {/*)})}*/}
                                     </Form.Control>
                                 </Form.Group>
                             </Form>
@@ -94,13 +115,11 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
             </div>
         );
     }
-    
-    
 }
 
 function canDisplaySkill(skill: number, qualities: Array<number>): boolean{
     let data = getSkillById(skill);
-    return data.reqAwakened ? qualities.indexOf(12) !== -1 : true;
+    return data.reqAwakened ? qualities.indexOf(AWAKENED_ID) !== -1 : true;
 }
 
 function getSkillById(id: number){
@@ -110,7 +129,7 @@ function getSkillById(id: number){
 function buildSkillGroups(): Object{
     let groupedSkills = { };
     // As a convention, assign non-grouped skills to "group -1"
-    skillData.skills.map((skill: Skill) => {groupedSkills[skill.group].append(skill.id)})
+    Object.keys(strings.skillGroups).map(group => groupedSkills[group] = skillData.skills.filter(skill => skill.group === Number(group)));
 
     return groupedSkills;
 }
