@@ -69,7 +69,6 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
     }
 
     submitForm(){
-        console.log("moshi moshi");
         this.state.selectedSkills.map((item, index) => {
             if(item){
                 let id = index >= NUM_SKILL_GROUPS ? index - NUM_SKILL_GROUPS : index;
@@ -79,28 +78,12 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
         
         this.handleClose();
     }
-
-    // Renders an individual quality item
-    buildSkillList(): any{
-        return(
-            <div>
-                <ul>
-                    {Object.keys(this.props.skills).map(function(skill){
-                        let info = getSkillById(Number(skill));
-                        return (<li key={skill}>{info.name}
-                        {<ArrowBox name="" value={this.props.skills[skill]} onIncrement={this.props.onIncrement} onDecrement={this.props.onDecrement} />}
-                        {<button onClick={() => this.props.onRemove(skill)}>--</button>}</li>)
-                    })}
-                </ul>
-            </div>
-        );
-    }
     
     render(){
         return(
             <div>
                 Active Skills:
-                {this.buildSkillList}
+                {buildSkillList(this.props.skills, this.props.onIncrement, this.props.onDecrement, this.props.onRemove)}
                 <Button onClick={this.handleShow}>++</Button>
                 <Modal show={this.state.showModal} onHide={this.handleClose}
                        size="lg"
@@ -164,6 +147,22 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
             </div>
         );
     }
+}
+
+// Renders the list of skills for the character
+function buildSkillList(skills:any, onIncrement, onDecrement, onRemove): any{
+    return(
+        <div>
+            <ul>
+                {Object.keys(skills).map(function(skill){
+                    let info = getSkillById(Number(skill));
+                    return (<li key={skill}>{info.name}
+                        {<ArrowBox name="asdf" value={skills[skill]} onIncrement={onIncrement} onDecrement={onDecrement} />}
+                        {<button onClick={() => onRemove(skill)}>--</button>}</li>)
+                })}
+            </ul>
+        </div>
+    );
 }
 
 function canDisplaySkill(skill: number, qualities: Array<number>): boolean{

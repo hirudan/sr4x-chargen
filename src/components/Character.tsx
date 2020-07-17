@@ -104,7 +104,6 @@ export class Character extends React.Component<CharacterProps, State> {
       let newDelta = Object.assign({},this.state.attrDelta);
       newDelta.MAG = 0;
       let newBp: number = this.state.bp + this.state.attrDelta.MAG * configs.attrCost;
-      console.log(newBp);
       this.setState({
         bp: newBp,
         attrDelta: newDelta
@@ -372,14 +371,21 @@ export class Character extends React.Component<CharacterProps, State> {
   // Purpose: Adds a skill or skill group to the character's active skills
   onAddSkill(toAdd: number, isGroup: boolean){
      let deltaBp: number = 0;
-     let newSkills: Object = {};
+     let newSkills: Object = Object.assign({}, this.state.skills);
      if(isGroup){
-       skillData.skills.filter(skill => skill.group === toAdd).map(skill => newSkills[skill.id] = 1);
+       let groupedSkills = skillData.skills.filter(skill => skill.group === toAdd);
+       groupedSkills.map(skill => {
+         if(this.state.skills[skill.id] == null){
+           newSkills[skill.id] = 1;
+         }
+       });
        deltaBp -= configs.skillGroupCost;
      }
      else{
-       newSkills[toAdd] = 1;
-       deltaBp -= configs.skillCost;
+       if(this.state.skills[toAdd] == null){
+         newSkills[toAdd] = 1;
+         deltaBp -= configs.skillCost;
+       }
      }
      
      this.setState({
@@ -431,7 +437,7 @@ export class Character extends React.Component<CharacterProps, State> {
   }
 
   // Recipient: SkillBox
-  // Purpose: Increments the rating of a skill or skill group
+  // Purpose: Decrements the rating of a skill or skill group
   onDecrementSkill(toNerf: number, isGroup: boolean){
     let deltaBp: number = 0;
     let newSkills = Object.assign({}, this.state.skills);
