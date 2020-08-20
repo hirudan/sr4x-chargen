@@ -6,6 +6,7 @@ import {AttrArray} from "../interfaces/AttrArray";
 import {QualBox} from "./QualBox";
 import {Quality} from "../interfaces/Quality";
 import {Skill} from "../interfaces/Skill";
+import {SkillGroup} from "../interfaces/SkillGroup";
 
 import configs from '../data/configs/config.json';
 import raceData from '../data/character/raceData.json';
@@ -44,7 +45,7 @@ interface State {
   attrDelta: AttrArray,
   augAttrDelta: AttrArray,
   augSkillDelta: AttrArray,
-  skills: any
+  skills: Array<SkillGroup>
 }
 
 const averages = "attr_averages", softcaps = "attr_softcaps", hardcaps = "attr_hardcaps";
@@ -64,6 +65,8 @@ export class Character extends React.Component<CharacterProps, State> {
 
   constructor(props: CharacterProps){
     super(props);
+    let protoSkills = new Array<SkillGroup>();
+    for(let i in Object.keys(messages.skillGroups)) protoSkills[Number(i)] = {rating: 0, skills: {}};
     this.state = {
       bp: configs.startingBP, // amount of BP available
       metatype: "Human", // the character's metatype,
@@ -73,7 +76,7 @@ export class Character extends React.Component<CharacterProps, State> {
       attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0, MAG: 0}, // How many points of attribute increase / sell-off have happened
       augAttrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points attributes have been increased by augmentation
       augSkillDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points skills have been increased by augmentation
-      skills: { }
+      skills: protoSkills // The active skills the character possesses
     };
     this.onMetatypeChanged = this.onMetatypeChanged.bind(this);
     this.onAttrIncrement = this.onAttrIncrement.bind(this);
@@ -181,6 +184,10 @@ export class Character extends React.Component<CharacterProps, State> {
   
   private static getQualityById(id: number): Quality{
     return qualData.qualities.find(q => q.id === id) || null;
+  }
+  
+  private static getSkillById(id: number): Skill{
+    return skillData.skills.find(q => q.id === id) || null;
   }
   
   render(){
@@ -369,21 +376,26 @@ export class Character extends React.Component<CharacterProps, State> {
   
   // Recipient: SkillBox
   // Purpose: Adds a skill or skill group to the character's active skills
-  onAddSkill(toAdd: number, isGroup: boolean){
-     let deltaBp: number = 0;
-     let newSkills: Object = Object.assign({}, this.state.skills);
-     if(isGroup){
-       let groupedSkills = skillData.skills.filter(skill => skill.group === toAdd);
-       groupedSkills.map(skill => {
-         if(this.state.skills[skill.id] == null){
-           newSkills[skill.id] = 1;
-         }
-       });
-       deltaBp -= configs.skillGroupCost;
-     }
-     else{
-       if(this.state.skills[toAdd] == null){
-         newSkills[toAdd] = 1;
+  onAddSkill(toAdd: Array<[number, boolean]>){
+     console.log(toAdd);
+    let deltaBp: number = 0;
+    let newSkills: Array<SkillGroup> = Object.assign({}, this.state.skills);
+    
+     for(let item in toAdd){
+       let id: number = Number(item[0]);
+       let isGroup: boolean = Boolean(item[1]);
+       if(isGroup){
+         if(newSkills[id].rating != 0) return;
+         newSkills[id].rating = 1;
+         let groupedSkills = skillData.skills.filter(skill => skill.group === id);
+         groupedSkills.map(skill => {
+           newSkills[skill.group].skills[skill.id] = 1;
+         });
+         deltaBp -= configs.skillGroupCost;
+       }
+       else{
+         let skill : Skill = Character.getSkillById(id);
+         newSkills[skill.group].skills[skill.id] = 1;
          deltaBp -= configs.skillCost;
        }
      }
@@ -398,15 +410,16 @@ export class Character extends React.Component<CharacterProps, State> {
   // Purpose: Adds a skill or skill group to the character's active skills
   onRemoveSkill(toRemove: number, isGroup: boolean){
     let deltaBp: number = 0;
-    let newSkills: Object = Object.assign({}, this.state.skills);
+    let newSkills: Array<SkillGroup> = Object.assign({}, this.state.skills);
     if(isGroup){
-      skillData.skills.filter(skill => skill.group === toRemove).map(skill => delete newSkills[skill.id] 
-          || console.log("hauu nanodesu"));
-      deltaBp += configs.skillGroupCost;
+      deltaBp += configs.skillGroupCost * newSkills[toRemove].rating;
+      newSkills[toRemove].rating = 0;
+      Object.keys(newSkills[toRemove].skills).map(skill => newSkills[toRemove].skills[skill] = 0);
     }
     else{
-      delete newSkills[toRemove];
-      deltaBp += configs.skillCost;
+      let skill: Skill = Character.getSkillById(toRemove);
+      deltaBp += configs.skillCost * newSkills[skill.group].skills[skill.id];
+      newSkills[skill.group].skills[skill.id] = 0;
     }
 
     this.setState({
@@ -423,11 +436,15 @@ export class Character extends React.Component<CharacterProps, State> {
     
     if(isGroup){
       deltaBp -= configs.skillGroupCost;
-      newSkills.keys.map(skill => {if(skillData.skills[skill].group === toBump) newSkills[toBump] += 1});
+      newSkills[toBump].rating += 1;
+      for(let skill in newSkills[toBump].skills){
+        newSkills[toBump].skills[Number(skill)]++;
+      }
     }
     else{
-      newSkills[toBump] >= configs.skillMax - 1 ? deltaBp -= 2* configs.skillCost : deltaBp -= configs.skillCost;
-      newSkills[toBump]++;
+      let skill: Skill = Character.getSkillById(toBump);
+      newSkills[skill.group].skills[toBump] >= configs.skillMax - 1 ? deltaBp -= 2 * configs.skillCost : deltaBp -= configs.skillCost;
+      newSkills[skill.group].skills[toBump]++;
     }
     
     this.setState({
@@ -438,17 +455,20 @@ export class Character extends React.Component<CharacterProps, State> {
 
   // Recipient: SkillBox
   // Purpose: Decrements the rating of a skill or skill group
-  onDecrementSkill(toNerf: number, isGroup: boolean){
+  onDecrementSkill(toNerf: number, isGroup: boolean) {
     let deltaBp: number = 0;
     let newSkills = Object.assign({}, this.state.skills);
 
-    if(isGroup){
+    if (isGroup) {
       deltaBp += configs.skillGroupCost;
-      newSkills.keys.map(skill => {if(skillData.skills[skill].group === toNerf) newSkills[toNerf] -= 1});
-    }
-    else{
-      newSkills[toNerf] >= configs.skillMax ? deltaBp += 2* configs.skillCost : deltaBp += configs.skillCost;
-      newSkills[toNerf]++;
+      newSkills[toNerf].rating -= 1;
+      for (let skill in newSkills[toNerf].skills) {
+        newSkills[toNerf].skills[Number(skill)]--;
+      }
+    } else {
+      let skill: Skill = Character.getSkillById(toNerf);
+      newSkills[skill.group].skills[toNerf] >= configs.skillMax ? deltaBp += 2 * configs.skillCost : deltaBp += configs.skillCost;
+      newSkills[skill.group].skills[toNerf]--;
     }
 
     this.setState({

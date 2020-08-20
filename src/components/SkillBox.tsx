@@ -1,5 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import {Skill} from '../interfaces/Skill';
+import {SkillGroup} from '../interfaces/SkillGroup';
 import skillData from '../data/character/skills.json';
 import {Button, ButtonGroup, Form, ToggleButton} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -8,7 +9,7 @@ import * as configs from "../data/configs/config.json";
 import {ArrowBox} from "./ArrowBox";
 
 export interface SkillProps{
-    skills: Object,
+    skills: Array<SkillGroup>,
     qualities: Array<number>,
     onAdd: any,
     onRemove: any,
@@ -69,13 +70,16 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
     }
 
     submitForm(){
+        let toAdd = [];
         this.state.selectedSkills.map((item, index) => {
             if(item){
+                console.log(index);
                 let id = index >= NUM_SKILL_GROUPS ? index - NUM_SKILL_GROUPS : index;
-                this.props.onAdd(id, index < NUM_SKILL_GROUPS);
+                toAdd.push([id, index < NUM_SKILL_GROUPS]);
             }
         });
-        
+
+        this.props.onAdd(toAdd);
         this.handleClose();
     }
     
@@ -83,6 +87,7 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
         return(
             <div>
                 Active Skills:
+                {console.log(this.props.skills)}
                 {buildSkillList(this.props.skills, this.props.onIncrement, this.props.onDecrement, this.props.onRemove)}
                 <Button onClick={this.handleShow}>++</Button>
                 <Modal show={this.state.showModal} onHide={this.handleClose}
@@ -150,17 +155,24 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
 }
 
 // Renders the list of skills for the character
-function buildSkillList(skills:any, onIncrement, onDecrement, onRemove): any{
+function buildSkillList(skills: Array<SkillGroup>, onIncrement, onDecrement, onRemove): any{
     return(
         <div>
-            <ul>
-                {Object.keys(skills).map(function(skill){
-                    let info = getSkillById(Number(skill));
-                    return (<li key={skill}>{info.name}
-                        {<ArrowBox name="asdf" value={skills[skill]} onIncrement={onIncrement} onDecrement={onDecrement} />}
-                        {<button onClick={() => onRemove(skill)}>--</button>}</li>)
-                })}
-            </ul>
+            {Object.keys(skills).map(function(skillGroup){
+                return(
+                    shouldDisplaySkillGroup(Number(skillGroup), skills) && <ul key={strings.skillGroups[Number(skillGroup)]}>
+                        {strings.skillGroups[Number(skillGroup)]}
+                        {Object.keys(skills[skillGroup].skills).map(function(skill){
+                            let info = getSkillById(Number(skill));
+                            return (skills[skillGroup].skills[Number(skill)] > 0 && <li key={skill}>{strings.skills[info.id]}
+                                {<ArrowBox name={strings.skills[info.id]} value={skills[Number(skillGroup)].skills[Number(skill)]} 
+                                           onIncrement={() => onIncrement(info.id, false)} onDecrement={() => onDecrement(info.id, false)} />}
+                                {<button onClick={() => onRemove(skill)}>--</button>}</li>)
+                        })}
+                    </ul>
+                );
+            })}
+            
         </div>
     );
 }
@@ -179,4 +191,8 @@ function buildSkillGroups(): Object{
     // As a convention, assign non-grouped skills to "group -1"
     Object.keys(strings.skillGroups).map(group => groupedSkills[group] = skillData.skills.filter(skill => skill.group === Number(group)));
     return groupedSkills;
+}
+
+function shouldDisplaySkillGroup(group: number, skills: Array<SkillGroup>): boolean {
+    return skills[group].rating > 0 || !Object.values(skills[group].skills).every(skill => skill <= 0);
 }

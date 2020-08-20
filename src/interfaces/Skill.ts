@@ -3,7 +3,7 @@
 export interface Skill {
     id: number,
     name: string,
-    linkedAttr: Array<Attribute>,
+    linkedAttr: Array<string>,
     reqAwakened: boolean,
     group: number
 }
