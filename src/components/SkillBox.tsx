@@ -1,12 +1,14 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {Skill} from '../interfaces/Skill';
 import {SkillGroup} from '../interfaces/SkillGroup';
+import {SkillGroupProps} from "./SkillGroupCard";
 import skillData from '../data/character/skills.json';
 import {Button, ButtonGroup, Form, ToggleButton} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import * as strings from "../data/strings/en-us.json";
 import * as configs from "../data/configs/config.json";
 import {ArrowBox} from "./ArrowBox";
+import {SkillGroupCard} from "./SkillGroupCard";
 
 export interface SkillProps{
     skills: Array<SkillGroup>,
@@ -19,12 +21,14 @@ export interface SkillProps{
 
 interface SkillState{
     showModal: boolean,
+    selectedSkillGroups: boolean[],
     selectedSkills: boolean[]
 }
 
 const AWAKENED_ID: number = 12;
 const skillGroups = buildSkillGroups();
 const NUM_SKILL_GROUPS: number = Object.keys(skillGroups).length;
+const NUM_SKILLS: number = skillData.skills.length;
 
 export class SkillBox extends React.Component<SkillProps, SkillState>{
     
@@ -35,10 +39,12 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
         this.onSelectSkill = this.onSelectSkill.bind(this);
         this.onSelectSkillGroup = this.onSelectSkillGroup.bind(this)
         this.submitForm = this.submitForm.bind(this);
-        const selectedSkills: boolean[] = new Array(NUM_SKILL_GROUPS + skillData.skills.length);
+        const selectedSkillGroups: boolean[] = new Array(NUM_SKILL_GROUPS)
+        const selectedSkills: boolean[] = new Array(NUM_SKILLS);
         selectedSkills.fill(false);
         this.setState(this.state ={
             showModal: false,
+            selectedSkillGroups: selectedSkillGroups,
             selectedSkills: selectedSkills
         });
     }
@@ -110,36 +116,14 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
                         <div>
                             <Form onSubmit={this.handleClose}>
                                 <Form.Group controlId="skillSelect">
-                                    <div className={"row"}>
-                                        <div className={"column"}>
-                                            <ButtonGroup vertical className={"mb-1"}>
-                                                {Object.keys(skillGroups).map((_, id) => (
-                                                    <ToggleButton 
-                                                        key={id}
-                                                        value={strings.skillGroups[id]}
-                                                        type={"checkbox"}
-                                                        checked={this.state.selectedSkills[id]}
-                                                        onChange={() => this.onSelectSkillGroup(id)}>
-                                                        {strings.skillGroups[id]}
-                                                    </ToggleButton>
-                                                ))}
-                                            </ButtonGroup>
-                                        </div>
-                                        <div className={"column"}>
-                                            <ButtonGroup vertical className={"mb-1"}>
-                                                {skillData.skills.map((skill, id) => (
-                                                    <ToggleButton
-                                                        key={id}
-                                                        value={strings.skills[skill.id]}
-                                                        type={"checkbox"}
-                                                        checked={this.state.selectedSkills[id + NUM_SKILL_GROUPS]}
-                                                        onChange={() => this.onSelectSkill(id)}>
-                                                        {strings.skills[skill.id]}
-                                                    </ToggleButton>
-                                                ))}
-                                            </ButtonGroup>
-                                        </div>
-                                    </div>
+                                    {Object.keys(skillGroups).map((group, index) => {
+                                        let toCard: Array<[number, boolean]> = [];
+                                        toCard.push([index, this.state.selectedSkillGroups[group]]);
+                                        skillGroups[group].forEach((skill: Skill) => toCard.push([skill.id, this.state.selectedSkills[skill.id]]))
+                                        return(
+                                            <SkillGroupCard skillGroup={toCard} onSelectSkillGroup={this.onSelectSkillGroup} onSelectSkill={this.onSelectSkill} />
+                                        )
+                                    })}
                                 </Form.Group>
                             </Form>
                         </div>
