@@ -1,5 +1,5 @@
 import React from 'react';
-import {ButtonGroup, ToggleButton} from "react-bootstrap";
+import {ButtonGroup, Card, ToggleButton} from "react-bootstrap";
 import * as strings from '../data/strings/en-us.json';
 
 export interface SkillGroupProps{
@@ -27,26 +27,32 @@ export class SkillGroupCard extends React.Component<SkillGroupProps, any>{
     render(){
         return(
             <div>
-                <ButtonGroup vertical>
-                    {this.props.skillGroup.map(function(skill, index){
-                        if(index === 0){
-                            return(
-                                <ToggleButton type="checkbox" checked={skill[1]} value={skill[0]}
-                                              onChange={() => this.props.onSelectSkillGroup(skill[0])}>
-                                    {strings.skillGroups[skill[0]]}
-                                </ToggleButton>
-                            )
-                        }
-                        else{
-                            return(
-                                <ToggleButton type="checkbox" checked={skill[1]} value={skill[0]}
-                                              onChange={() => this.props.onSelectSkill(skill[0])}>
-                                    {strings.skills[skill[0]]}
-                                </ToggleButton>
-                            )
-                        }
-                    })}
-                </ButtonGroup>
+                <Card style={{ width: '18rem' }}>
+                    <Card.Body>
+                        <ButtonGroup vertical>
+                            {this.props.skillGroup.map((skill, index) => {
+                                if(index === 0){
+                                    return(
+                                        <Card.Header>
+                                            <ToggleButton key={skill[0]} type="checkbox" checked={skill[1]} value={skill[0]}
+                                                          onChange={() => this.props.onSelectSkillGroup(skill[0])}>
+                                                {strings.skillGroups[skill[0]]}
+                                            </ToggleButton>
+                                        </Card.Header>
+                                    )
+                                }
+                                else{
+                                    return(
+                                        <ToggleButton key={skill[0]} type="checkbox" checked={skill[1]} value={skill[0]}
+                                                      onChange={() => this.props.onSelectSkill(skill[0])}>
+                                            {strings.skills[skill[0]]}
+                                        </ToggleButton>
+                                    )
+                                }
+                            })}
+                        </ButtonGroup>
+                    </Card.Body>
+                </Card>
             </div>
         );
     }

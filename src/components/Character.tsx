@@ -381,24 +381,29 @@ export class Character extends React.Component<CharacterProps, State> {
     let deltaBp: number = 0;
     let newSkills: Array<SkillGroup> = Object.assign({}, this.state.skills);
     
-     for(let item in toAdd){
-       let id: number = Number(item[0]);
-       let isGroup: boolean = Boolean(item[1]);
+     for(let i = 0; i < toAdd.length; i++){
+       let id: number = Number(toAdd[i][0]);
+       let isGroup: boolean = Boolean(toAdd[i][1]);
+       console.log("ID: " + id + " isGroup: " + isGroup);
        if(isGroup){
-         if(newSkills[id].rating != 0) return;
+         if(newSkills[id].rating != 0) continue;
          newSkills[id].rating = 1;
-         let groupedSkills = skillData.skills.filter(skill => skill.group === id);
+         let groupedSkills: Array<Skill> = skillData.skills.filter(skill => skill.group === id);
          groupedSkills.map(skill => {
+             if(id !== skill.group) console.log("NOOT NOOT");
            newSkills[skill.group].skills[skill.id] = 1;
          });
          deltaBp -= configs.skillGroupCost;
        }
        else{
          let skill : Skill = Character.getSkillById(id);
+         if(newSkills[skill.group].skills[skill.id] > 0) continue;
          newSkills[skill.group].skills[skill.id] = 1;
          deltaBp -= configs.skillCost;
        }
      }
+     
+     console.log(newSkills);
      
      this.setState({
        bp: this.state.bp + deltaBp,
@@ -460,6 +465,7 @@ export class Character extends React.Component<CharacterProps, State> {
     let newSkills = Object.assign({}, this.state.skills);
 
     if (isGroup) {
+      if(this.state.skills[toNerf].rating === 1) return;
       deltaBp += configs.skillGroupCost;
       newSkills[toNerf].rating -= 1;
       for (let skill in newSkills[toNerf].skills) {
@@ -467,6 +473,7 @@ export class Character extends React.Component<CharacterProps, State> {
       }
     } else {
       let skill: Skill = Character.getSkillById(toNerf);
+      if(this.state.skills[skill.group].skills[skill.id] === 1) return;
       newSkills[skill.group].skills[toNerf] >= configs.skillMax ? deltaBp += 2 * configs.skillCost : deltaBp += configs.skillCost;
       newSkills[skill.group].skills[toNerf]--;
     }

@@ -26,8 +26,8 @@ interface SkillState{
 }
 
 const AWAKENED_ID: number = 12;
-const skillGroups = buildSkillGroups();
-const NUM_SKILL_GROUPS: number = Object.keys(skillGroups).length;
+const skillGroupMap = buildSkillGroups();
+const NUM_SKILL_GROUPS: number = Object.keys(skillGroupMap).length;
 const NUM_SKILLS: number = skillData.skills.length;
 
 export class SkillBox extends React.Component<SkillProps, SkillState>{
@@ -41,6 +41,7 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
         this.submitForm = this.submitForm.bind(this);
         const selectedSkillGroups: boolean[] = new Array(NUM_SKILL_GROUPS)
         const selectedSkills: boolean[] = new Array(NUM_SKILLS);
+        selectedSkillGroups.fill(false);
         selectedSkills.fill(false);
         this.setState(this.state ={
             showModal: false,
@@ -59,29 +60,32 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
     
     onSelectSkill(id: number){
         let newSelectedSkills = this.state.selectedSkills;
-        newSelectedSkills[id + NUM_SKILL_GROUPS] = !newSelectedSkills[id + NUM_SKILL_GROUPS];
-        if(!newSelectedSkills[id + NUM_SKILL_GROUPS]){
-            let skill: Skill = Object.values(skillGroups).concat.apply([], Object.values(skillGroups)).find(
-                target => target.id === id);
-            if(skill != null) newSelectedSkills[skill.group] = false;
-        }
+        newSelectedSkills[id] = !newSelectedSkills[id];
+        // if(!newSelectedSkills[id]){
+        //     let skill: Skill = getSkillById(id);
+        //     if(skill != null) newSelectedSkills[skill.group] = false;
+        // }
         this.setState({selectedSkills: newSelectedSkills});
     }
     
     onSelectSkillGroup(id: number){
+        let newSelectedSkillGroups = this.state.selectedSkillGroups;
         let newSelectedSkills = this.state.selectedSkills;
-        newSelectedSkills[id] = !newSelectedSkills[id];
-        skillGroups[id].map(skill => newSelectedSkills[skill.id + NUM_SKILL_GROUPS] = newSelectedSkills[id]);
-        this.setState({selectedSkills: newSelectedSkills});
+        newSelectedSkillGroups[id] = !newSelectedSkillGroups[id];
+        skillGroupMap[id].map(skill => newSelectedSkills[skill.id] = newSelectedSkillGroups[id]);
+        this.setState({selectedSkillGroups: newSelectedSkillGroups, selectedSkills: newSelectedSkills});
     }
 
     submitForm(){
         let toAdd = [];
+        this.state.selectedSkillGroups.map((item, index) => {
+            if(item){
+                toAdd.push([index, true]);
+            }
+        });
         this.state.selectedSkills.map((item, index) => {
             if(item){
-                console.log(index);
-                let id = index >= NUM_SKILL_GROUPS ? index - NUM_SKILL_GROUPS : index;
-                toAdd.push([id, index < NUM_SKILL_GROUPS]);
+                toAdd.push([index, false]);
             }
         });
 
@@ -93,7 +97,6 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
         return(
             <div>
                 Active Skills:
-                {console.log(this.props.skills)}
                 {buildSkillList(this.props.skills, this.props.onIncrement, this.props.onDecrement, this.props.onRemove)}
                 <Button onClick={this.handleShow}>++</Button>
                 <Modal show={this.state.showModal} onHide={this.handleClose}
@@ -116,12 +119,12 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
                         <div>
                             <Form onSubmit={this.handleClose}>
                                 <Form.Group controlId="skillSelect">
-                                    {Object.keys(skillGroups).map((group, index) => {
+                                    {Object.keys(skillGroupMap).map((group, index) => {
                                         let toCard: Array<[number, boolean]> = [];
                                         toCard.push([index, this.state.selectedSkillGroups[group]]);
-                                        skillGroups[group].forEach((skill: Skill) => toCard.push([skill.id, this.state.selectedSkills[skill.id]]))
+                                        skillGroupMap[group].forEach((skill: Skill) => toCard.push([skill.id, this.state.selectedSkills[skill.id]]))
                                         return(
-                                            <SkillGroupCard skillGroup={toCard} onSelectSkillGroup={this.onSelectSkillGroup} onSelectSkill={this.onSelectSkill} />
+                                            <SkillGroupCard key={index} skillGroup={toCard} onSelectSkillGroup={this.onSelectSkillGroup} onSelectSkill={this.onSelectSkill} />
                                         )
                                     })}
                                 </Form.Group>
@@ -149,9 +152,9 @@ function buildSkillList(skills: Array<SkillGroup>, onIncrement, onDecrement, onR
                         {Object.keys(skills[skillGroup].skills).map(function(skill){
                             let info = getSkillById(Number(skill));
                             return (skills[skillGroup].skills[Number(skill)] > 0 && <li key={skill}>{strings.skills[info.id]}
-                                {<ArrowBox name={strings.skills[info.id]} value={skills[Number(skillGroup)].skills[Number(skill)]} 
+                                {<ArrowBox key={info.id} name={strings.skills[info.id]} value={skills[Number(skillGroup)].skills[Number(skill)]} 
                                            onIncrement={() => onIncrement(info.id, false)} onDecrement={() => onDecrement(info.id, false)} />}
-                                {<button onClick={() => onRemove(skill)}>--</button>}</li>)
+                                {<button onClick={() => onRemove(info.id)}>--</button>}</li>)
                         })}
                     </ul>
                 );
