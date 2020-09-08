@@ -33,8 +33,6 @@ if (!String.prototype.format) {
   };
 }
 
-
-
 // The elements of state a Character object tracks
 interface State {
   bp: number,
@@ -62,6 +60,7 @@ export class Character extends React.Component<CharacterProps, State> {
   private readonly SIGHT_ID: number = 42;
   private readonly ARTIFICER_ID: number = 9;
   private readonly INITIATE_ID: number = 28;
+  private readonly UNGROUPED_ID: number = 24;
 
   constructor(props: CharacterProps){
     super(props);
@@ -384,18 +383,18 @@ export class Character extends React.Component<CharacterProps, State> {
      for(let i = 0; i < toAdd.length; i++){
        let id: number = Number(toAdd[i][0]);
        let isGroup: boolean = Boolean(toAdd[i][1]);
-       console.log("ID: " + id + " isGroup: " + isGroup);
        if(isGroup){
-         if(newSkills[id].rating != 0) continue;
+         // Skip if the user tried to add "ungrouped skills" or if they already have this skill group
+         if(id === this.UNGROUPED_ID || newSkills[id].rating != 0) continue;
          newSkills[id].rating = 1;
          let groupedSkills: Array<Skill> = skillData.skills.filter(skill => skill.group === id);
          groupedSkills.map(skill => {
-             if(id !== skill.group) console.log("NOOT NOOT");
            newSkills[skill.group].skills[skill.id] = 1;
          });
          deltaBp -= configs.skillGroupCost;
        }
        else{
+         console.log(newSkills);
          let skill : Skill = Character.getSkillById(id);
          if(newSkills[skill.group].skills[skill.id] > 0) continue;
          newSkills[skill.group].skills[skill.id] = 1;

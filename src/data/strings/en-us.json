@@ -88,7 +88,6 @@
     "69": {"name": "Weak Immune System", "desc": "Treat the DV of toxins and pathogens as if they were 2 points higher. If the toxin or pathogen has no DV, double the effects."}
   },
   "skillGroups": {
-    "-1": "Ungrouped Skills",
     "0": "Close Combat Group",
     "1": "Ranged Combat Group",
     "2": "Ordinance Group",
@@ -112,7 +111,8 @@
     "20": "Cracking Group",
     "21": "Engineering Group",
     "22": "Tasking Group",
-    "23": "Partitioning Group"
+    "23": "Partitioning Group",
+    "24": "Ungrouped Skills"
   },
   "skills": {
     "0": "Armed Combat",

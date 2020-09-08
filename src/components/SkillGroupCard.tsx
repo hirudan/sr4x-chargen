@@ -26,7 +26,6 @@ export class SkillGroupCard extends React.Component<SkillGroupProps, any>{
     
     render(){
         return(
-            <div>
                 <Card style={{ width: '18rem' }}>
                     <Card.Body>
                         <ButtonGroup vertical>
@@ -53,7 +52,6 @@ export class SkillGroupCard extends React.Component<SkillGroupProps, any>{
                         </ButtonGroup>
                     </Card.Body>
                 </Card>
-            </div>
         );
     }
 }

@@ -543,35 +543,35 @@
       "name": "Artisan",
       "linkedAttr": ["INT"],
       "reqAwakened": false,
-      "group": -1
+      "group": 24
     },
     {
       "id": 78,
       "name": "Assensing",
       "linkedAttr": ["INT"],
       "reqAwakened": true,
-      "group": -1
+      "group": 24
     },
     {
       "id": 79,
       "name": "Dodge",
       "linkedAttr": ["REA"],
       "reqAwakened": false, 
-      "group": -1
+      "group": 24
     },
     {
       "id": 80,
       "name": "Perception",
       "linkedAttr": ["INT"],
       "reqAwakened": false,
-      "group": -1
+      "group": 24
     },
     {
       "id": 81,
       "name": "Matrix Perception",
       "linkedAttr": ["INT"],
       "reqAwakened": false,
-      "group": -1
+      "group": 24
     }
   ]
 }
