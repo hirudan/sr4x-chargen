@@ -54,16 +54,15 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
     }
 
     handleShow() {
-        this.setState({ showModal: true });
+        
+        this.setState({ showModal: true, 
+            selectedSkillGroups: this.state.selectedSkillGroups.fill(false) , 
+            selectedSkills: this.state.selectedSkills.fill(false)});
     }
     
     onSelectSkill(id: number){
         let newSelectedSkills = this.state.selectedSkills;
         newSelectedSkills[id] = !newSelectedSkills[id];
-        // if(!newSelectedSkills[id]){
-        //     let skill: Skill = getSkillById(id);
-        //     if(skill != null) newSelectedSkills[skill.group] = false;
-        // }
         this.setState({selectedSkills: newSelectedSkills});
     }
     
@@ -120,7 +119,7 @@ export class SkillBox extends React.Component<SkillProps, SkillState>{
                                 <Form.Group controlId="skillSelect">
                                     {Object.keys(skillGroupMap).map((group, index) => {
                                         let toCard: Array<[number, boolean]> = [];
-                                        toCard.push([index, this.state.selectedSkillGroups[group]]);
+                                        toCard.push([Number(group), this.state.selectedSkillGroups[group]]);
                                         skillGroupMap[group].forEach((skill: Skill) => toCard.push([skill.id, this.state.selectedSkills[skill.id]]))
                                         return(
                                             <SkillGroupCard key={index} skillGroup={toCard} onSelectSkillGroup={this.onSelectSkillGroup} onSelectSkill={this.onSelectSkill} />
@@ -170,6 +169,12 @@ function buildSkillList(skills: Array<SkillGroup>, onIncrement, onDecrement, onR
 function canDisplaySkill(skill: number, qualities: Array<number>): boolean{
     let data = getSkillById(skill);
     return data.reqAwakened ? qualities.indexOf(AWAKENED_ID) !== -1 : true;
+}
+
+function canDisplaySkillGroup(group: number, qualities: Array<number>, skills: Array<SkillGroup>): boolean{
+    let alreadyHas: boolean = skills[group].rating > 0;
+    let requiresAwakened: boolean = skillData.skills.filter(s => s.group === group).some(s => s.reqAwakened) && qualities.indexOf(AWAKENED_ID) !== -1;
+    return alreadyHas && requiresAwakened;
 }
 
 function getSkillById(id: number){
