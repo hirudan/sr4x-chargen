@@ -386,23 +386,25 @@ export class Character extends React.Component<CharacterProps, State> {
        if(isGroup){
          // Skip if the user tried to add "ungrouped skills" or if they already have this skill group
          if(id === this.UNGROUPED_ID || newSkills[id].rating != 0) continue;
+         // If the user already had one or more of the skills in this group, refund their cost
          newSkills[id].rating = 1;
          let groupedSkills: Array<Skill> = skillData.skills.filter(skill => skill.group === id);
          groupedSkills.map(skill => {
+           let skillValue: number = newSkills[skill.group].skills[skill.id] ?? 0;
+           let overMax: number = Math.max(skillValue - configs.skillMax - 1, 0);
+           let underMax: number = skillValue - overMax;
+           deltaBp += configs.skillCost * (underMax + 2 * overMax);
            newSkills[skill.group].skills[skill.id] = 1;
          });
          deltaBp -= configs.skillGroupCost;
        }
        else{
-         console.log(newSkills);
          let skill : Skill = Character.getSkillById(id);
          if(newSkills[skill.group].skills[skill.id] > 0) continue;
          newSkills[skill.group].skills[skill.id] = 1;
          deltaBp -= configs.skillCost;
        }
      }
-     
-     console.log(newSkills);
      
      this.setState({
        bp: this.state.bp + deltaBp,
@@ -422,7 +424,10 @@ export class Character extends React.Component<CharacterProps, State> {
     }
     else{
       let skill: Skill = Character.getSkillById(toRemove);
-      deltaBp += configs.skillCost * newSkills[skill.group].skills[skill.id];
+      let skillValue: number = newSkills[skill.group].skills[skill.id] ?? 0;
+      let overMax: number = Math.max(skillValue - configs.skillMax - 1, 0);
+      let underMax: number = skillValue - overMax;
+      deltaBp += configs.skillCost * (underMax + 2 * overMax);
       newSkills[skill.group].skills[skill.id] = 0;
     }
 
