@@ -173,6 +173,35 @@ export class Character extends React.Component<CharacterProps, State> {
       this.errorLog.push(messages.error.exceeded_max_mag_qual.format(String(this.state.attributes.MAG), 
           messages.qualities[this.ARTIFICER_ID].name, messages.qualities[this.SIGHT_ID].name));
     }
+
+    // Deep copy skills to see if that does anything
+    let copiedSkills: Array<SkillGroup> = Array.from(Object.assign({}, this.state.skills));
+    
+    // Rule: max skill group rating is 4
+    let turboSkillGroups: SkillGroup[] = copiedSkills.filter(sg => sg.rating >= configs.skillGroupMaxChargen);
+    turboSkillGroups.forEach((sg, index) => {
+      if(sg.rating > configs.skillGroupMaxChargen)
+      {
+        this.errorLog.push(messages.error.exceeded_skillgroup_max.format(messages.skillGroups[index], String(configs.skillGroupMaxChargen)));
+      }
+    })
+    
+    // Rule: may only have 2 skill groups at rating 4 at chargen
+    if(turboSkillGroups.length > configs.numSkillGroupsMax)
+      this.errorLog.push(messages.error.exceeded_num_max_skillgroups);
+
+
+    // Create big list of skill ratings for checking rules
+    
+    
+    //Rule: un-augmented skill values may not exceed an allowed max
+    let maxxedSkills: SkillGroup[] = copiedSkills.filter(sg => !Object.values(sg.skills).every(s => s < configs.skillMaxUnaug));
+    maxxedSkills.forEach(sg => Object.keys(sg.skills).map(skill => {
+      if(sg.skills[skill] > configs.skillMaxUnaug){
+        this.errorLog.push(messages.error.exceeded_skill_max.format(messages.skills[skill], String(configs.skillMaxUnaug)))
+      }
+    }))
+    
     
     return this.errorLog.length === 0;
   }
@@ -269,7 +298,6 @@ export class Character extends React.Component<CharacterProps, State> {
        qualities: newQualities,
        bp: this.state.bp + deltaBP
      });
-     
    }
 
    // Recipient: MetaBox
@@ -391,7 +419,7 @@ export class Character extends React.Component<CharacterProps, State> {
          let groupedSkills: Array<Skill> = skillData.skills.filter(skill => skill.group === id);
          groupedSkills.map(skill => {
            let skillValue: number = newSkills[skill.group].skills[skill.id] ?? 0;
-           let overMax: number = Math.max(skillValue - configs.skillMax - 1, 0);
+           let overMax: number = Math.max(skillValue - configs.skillMaxUnaug + 1, 0);
            let underMax: number = skillValue - overMax;
            deltaBp += configs.skillCost * (underMax + 2 * overMax);
            newSkills[skill.group].skills[skill.id] = 1;
@@ -419,13 +447,20 @@ export class Character extends React.Component<CharacterProps, State> {
     let newSkills: Array<SkillGroup> = Object.assign({}, this.state.skills);
     if(isGroup){
       deltaBp += configs.skillGroupCost * newSkills[toRemove].rating;
+      Object.keys(newSkills[toRemove].skills).forEach(s => {
+        let skill: Skill = Character.getSkillById(Number(s));
+        let skillValue: number = newSkills[skill.group].skills[skill.id] ?? 0;
+        let overMax: number = Math.max(skillValue - configs.skillMaxUnaug + 1, 0);
+        let underMax: number = skillValue - newSkills[toRemove].rating - overMax;
+        deltaBp += configs.skillCost * (underMax + 2 * overMax);
+        newSkills[toRemove].skills[skill.id] = 0;
+      });
       newSkills[toRemove].rating = 0;
-      Object.keys(newSkills[toRemove].skills).map(skill => newSkills[toRemove].skills[skill] = 0);
     }
     else{
       let skill: Skill = Character.getSkillById(toRemove);
       let skillValue: number = newSkills[skill.group].skills[skill.id] ?? 0;
-      let overMax: number = Math.max(skillValue - configs.skillMax - 1, 0);
+      let overMax: number = Math.max(skillValue - configs.skillMaxUnaug + 1, 0);
       let underMax: number = skillValue - overMax;
       deltaBp += configs.skillCost * (underMax + 2 * overMax);
       newSkills[skill.group].skills[skill.id] = 0;
@@ -444,6 +479,9 @@ export class Character extends React.Component<CharacterProps, State> {
     let newSkills = Object.assign({}, this.state.skills);
     
     if(isGroup){
+      // For now, we don't allow raising of skill groups if all the skills aren't at an equal rating. Skills can still 
+      // be raised above their group level, though.
+      if(!Object.values(newSkills[toBump].skills).every((s, _, arr) => s == arr[0])) return;
       deltaBp -= configs.skillGroupCost;
       newSkills[toBump].rating += 1;
       for(let skill in newSkills[toBump].skills){
@@ -452,7 +490,7 @@ export class Character extends React.Component<CharacterProps, State> {
     }
     else{
       let skill: Skill = Character.getSkillById(toBump);
-      newSkills[skill.group].skills[toBump] >= configs.skillMax - 1 ? deltaBp -= 2 * configs.skillCost : deltaBp -= configs.skillCost;
+      newSkills[skill.group].skills[toBump] >= configs.skillMaxUnaug - 1 ? deltaBp -= 2 * configs.skillCost : deltaBp -= configs.skillCost;
       newSkills[skill.group].skills[toBump]++;
     }
     
@@ -477,8 +515,12 @@ export class Character extends React.Component<CharacterProps, State> {
       }
     } else {
       let skill: Skill = Character.getSkillById(toNerf);
-      if(this.state.skills[skill.group].skills[skill.id] === 1) return;
-      newSkills[skill.group].skills[toNerf] >= configs.skillMax ? deltaBp += 2 * configs.skillCost : deltaBp += configs.skillCost;
+      // Return if the skill is already at rating 1 or if this is a grouped skill and decreasing it would take it below
+      // the skill group rating.
+      if(this.state.skills[skill.group].skills[skill.id] === 1 || 
+          this.state.skills[skill.group].skills[skill.id] === this.state.skills[skill.group].rating)
+        return;
+      newSkills[skill.group].skills[toNerf] >= configs.skillMaxUnaug ? deltaBp += 2 * configs.skillCost : deltaBp += configs.skillCost;
       newSkills[skill.group].skills[toNerf]--;
     }
 

@@ -13,7 +13,11 @@
     "exceeded_allowed_pos_quals": "Exceeded allowed value {0}BP of positive qualities",
     "qual_req_not_met": "Quality {0} requires quality {1}",
     "exceeded_max_mag_ess": "MAG value {0} is exceeds allowed max of ESS {1} plus Initiate Grade {2}",
-    "exceeded_max_mag_qual": "MAG value {0} exceeds allowed max of 1 with qualities {1} or {2}"
+    "exceeded_max_mag_qual": "MAG value {0} exceeds allowed max of 1 with qualities {1} or {2}",
+    "exceeded_skillgroup_max": "Skill group {0} exceeds max allowed rating {1} at chargen",
+    "exceeded_skill_max": "Skill {0} exceeds un-augmented skill cap of {1}",
+    "exceeded_num_max_skills": "Exceeded number of allowed skills at natural rating {0} or above",
+    "exceeded_num_max_skillgroups": "Exceeded number of allowed skill groups at rating {0}"
   },
   "qualities": {
     "0": {"name": "Celerity", "desc": "Increase base movement rates by 50%"},
