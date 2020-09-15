@@ -5,6 +5,7 @@
   "sellAttrCost": 5,
   "skillCost": 2,
   "skillGroupCost": 5,
+  "knowledgeSkillCost": 1,
   "skillMax": 10,
   "skillMaxUnaug": 6,
   "skillGroupMaxChargen": 4,

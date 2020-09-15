@@ -5,7 +5,13 @@
     "quality_rules": "You may take a total of {0} BP worth of positive qualities at chargen, and you may only receive {0} BP from negative qualities. Note that this does not apply to qualities like \"Awakened\"",
     "skill_title": "Skill Selection",
     "skill_greeting": "Select active skills for your character",
-    "skill_rules": "You may have one skill at rating 6 or two skills at rating 5 at chargen. Skill groups may have a max rating of 4 at chargen."
+    "skill_rules": "You may have one skill at rating 6 or two skills at rating 5 at chargen. Skill groups may have a max rating of 4 at chargen.",
+    "acpro_know_skills": "Academic and Professional (LOG)",
+    "intstr_know_skills": "Interests and Street (INT)",
+    "free_know_skills": "Remaining free knowledge skill points",
+    "knowskill_title": "Add a knowledge skill",
+    "knowskill_rules": "Knowledge skills fall into either Academic and Professional category (tied to LOG) or Interests and Street category (tied to INT).",
+    "add_knowskill": "Add knowledge skill"
   },
   "error": {
     "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype",

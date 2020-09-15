@@ -1,19 +1,23 @@
 import * as React from 'react';
-import {MetaBox} from './MetaBox';
+
 import {Attribute} from './Enums'
+import {KnowSkillCategory} from "./Enums";
 import * as Console from "console";
 import {AttrArray} from "../interfaces/AttrArray";
-import {QualBox} from "./QualBox";
 import {Quality} from "../interfaces/Quality";
 import {Skill} from "../interfaces/Skill";
 import {SkillGroup} from "../interfaces/SkillGroup";
-
 import configs from '../data/configs/config.json';
 import raceData from '../data/character/raceData.json';
 import qualData from '../data/character/qualities.json';
 import skillData from '../data/character/skills.json'
 import * as messages from '../data/strings/en-us.json';
+import {KnowSkillBox} from './KnowSkillBox';
+import {MetaBox} from './MetaBox';
+import {QualBox} from "./QualBox";
 import {SkillBox} from "./SkillBox";
+import {KnowledgeSkill} from "../interfaces/KnowledgeSkill";
+import {Col, Container, Row} from "react-bootstrap";
 
 export interface CharacterProps {name?: string; bp?: number}
 
@@ -43,7 +47,9 @@ interface State {
   attrDelta: AttrArray,
   augAttrDelta: AttrArray,
   augSkillDelta: AttrArray,
-  skills: Array<SkillGroup>
+  skills: Array<SkillGroup>,
+  knowSkills: Array<KnowledgeSkill>,
+  bpSpentKnowSkills: number
 }
 
 const averages = "attr_averages", softcaps = "attr_softcaps", hardcaps = "attr_hardcaps";
@@ -75,7 +81,9 @@ export class Character extends React.Component<CharacterProps, State> {
       attrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0, MAG: 0}, // How many points of attribute increase / sell-off have happened
       augAttrDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points attributes have been increased by augmentation
       augSkillDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points skills have been increased by augmentation
-      skills: protoSkills // The active skills the character possesses
+      skills: protoSkills, // The active skills the character possesses
+      knowSkills: new Array<KnowledgeSkill>(), // The character's knowledge skill array
+      bpSpentKnowSkills: 0
     };
     this.onMetatypeChanged = this.onMetatypeChanged.bind(this);
     this.onAttrIncrement = this.onAttrIncrement.bind(this);
@@ -86,6 +94,10 @@ export class Character extends React.Component<CharacterProps, State> {
     this.onRemoveSkill = this.onRemoveSkill.bind(this);
     this.onIncrementSkill = this.onIncrementSkill.bind(this);
     this.onDecrementSkill = this.onDecrementSkill.bind(this);
+    this.onAddKnowSkill = this.onAddKnowSkill.bind(this);
+    this.onRemoveKnowSkill = this.onRemoveKnowSkill.bind(this);
+    this.onIncrementKnowSkill = this.onIncrementKnowSkill.bind(this);
+    this.onDecrementKnowSkill = this.onDecrementKnowSkill.bind(this);
   }
   
   // Updates the derived attributes of BOD, ESS (eventually, after cyberware is implemented), INI, and WIL on the 
@@ -133,12 +145,14 @@ export class Character extends React.Component<CharacterProps, State> {
   // Any errors will be logged to errorLog for later display. 
   private validate(): boolean{
     this.errorLog = new Array<string>();
+    
     // Rule: attributes shall not exceed racial softcaps
     for(let attribute in this.state.attributes){
       if(this.state.attributes[attribute] > Character.getAttrFromConfig(this.state.metatype, softcaps)[attribute]){
         this.errorLog.push(messages.error.exceeded_softcap.format(attribute, this.state.metatype));
       }
     }
+    
     // Rule: players shall not spend more than 20BP on qualities, nor shall they gain more than 20 in negative
     // qualities.
     let tempQualDelta = Object.assign({}, this.state.qualDelta);
@@ -220,28 +234,60 @@ export class Character extends React.Component<CharacterProps, State> {
     return skillData.skills.find(q => q.id === id) || null;
   }
   
+  private computeKnowSkillPoints(): number{
+    let starting: number = (this.state.attributes.INT + this.state.attributes.LOG) * 3;
+    let pointsExpended: number = 0;
+    this.state.knowSkills.forEach(skill => pointsExpended += skill.rating);
+    
+    return Math.max(starting - pointsExpended, 0);
+  }
+  
   render(){
     this.valid = this.validate();
-    return(<div>
-      <p>Moshi moshi, {this.props.name} desu.</p>
-      <p>I have {this.state.bp} build points.</p>
-      <p>State: {this.valid ? "Valid" : "Invalid"}</p>
-      {this.makeErrorList(this.valid)}
-      <MetaBox attributes={this.state.attributes} 
-               onMetatypeChanged={this.onMetatypeChanged} 
-               onAttrDecrement={this.onAttrDecrement}
-               onAttrIncrement={this.onAttrIncrement}/>
-      <QualBox qualities={this.state.qualities}
-               onAdd={this.onAddQuality}
-               onRemove={this.onRemoveQuality}
-               metatype={this.state.metatype}/>
-      <SkillBox skills={this.state.skills} 
-                qualities={this.state.qualities}
-                onAdd={this.onAddSkill}
-                onRemove={this.onRemoveSkill}
-                onIncrement={this.onIncrementSkill}
-                onDecrement={this.onDecrementSkill} />
-    </div>);
+    return(
+        <Container>
+          <Row>
+            <div>
+              <p>Moshi moshi, {this.props.name} desu.</p>
+              <p>I have {this.state.bp} build points.</p>
+              <p>State: {this.valid ? "Valid" : "Invalid"}</p>
+              {this.makeErrorList(this.valid)}
+            </div>
+          </Row>
+          <Row>
+            <Col>
+              <MetaBox attributes={this.state.attributes} 
+                       onMetatypeChanged={this.onMetatypeChanged} 
+                       onAttrDecrement={this.onAttrDecrement}
+                       onAttrIncrement={this.onAttrIncrement}/>
+            </Col>
+            <Col>
+              <QualBox qualities={this.state.qualities}
+                       onAdd={this.onAddQuality}
+                       onRemove={this.onRemoveQuality}
+                       metatype={this.state.metatype}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <SkillBox skills={this.state.skills} 
+                        qualities={this.state.qualities}
+                        onAdd={this.onAddSkill}
+                        onRemove={this.onRemoveSkill}
+                        onIncrement={this.onIncrementSkill}
+                        onDecrement={this.onDecrementSkill} />
+            </Col>
+            <Col>
+              <KnowSkillBox freePoints={this.computeKnowSkillPoints()}
+                            onAdd={this.onAddKnowSkill}
+                            onRemove={this.onRemoveKnowSkill}
+                            onIncrement={this.onIncrementKnowSkill}
+                            onDecrement={this.onDecrementKnowSkill}
+                            knowSkills={this.state.knowSkills}
+              />
+            </Col>
+          </Row>
+        </Container>);
   }
 
   /*
@@ -529,5 +575,62 @@ export class Character extends React.Component<CharacterProps, State> {
       bp: this.state.bp + deltaBp,
       skills: newSkills
     })
+  }
+  
+  // Recipient: KnowSkillBox
+  // Purpose: Add a knowledge skill to the relevant category
+  onAddKnowSkill(name: string, category: KnowSkillCategory){
+     let deltaBp: number = this.computeKnowSkillPoints() > 0 ? 0 : -configs.knowledgeSkillCost;
+     let newSkills = this.state.knowSkills;
+     newSkills.push({name: name, category: category, rating: 1});
+     
+     this.setState({
+       bp: this.state.bp + deltaBp,
+       knowSkills: newSkills,
+       bpSpentKnowSkills: deltaBp < 0 ? this.state.bpSpentKnowSkills + Math.abs(deltaBp) : this.state.bpSpentKnowSkills
+     })
+  }
+
+  // Recipient: KnowSkillBox
+  // Purpose: Remove a knowledge skill from the relevant category
+  onRemoveKnowSkill(name: string, category: KnowSkillCategory){
+    let newSkills = this.state.knowSkills;
+    let rating: number = this.state.knowSkills.filter(s => s.name == name && s.category == category)[0].rating;
+    let deltaBp: number = this.state.bpSpentKnowSkills >= rating ? rating : this.state.bpSpentKnowSkills;
+    newSkills.splice(newSkills.findIndex(s => s.name == name && s.category == category), 1);
+
+    this.setState({
+      bp: this.state.bp + deltaBp,
+      knowSkills: newSkills,
+      bpSpentKnowSkills: this.state.bpSpentKnowSkills >= rating ? this.state.bpSpentKnowSkills - rating : 0
+    })
+  }
+
+  // Recipient: KnowSkillBox
+  // Purpose: Increment a knowledge skill rating
+  onIncrementKnowSkill(name: string, category: KnowSkillCategory){
+     let deltaBp: number = this.computeKnowSkillPoints() > 0 ? 0 : -configs.knowledgeSkillCost;
+     let newSkills = this.state.knowSkills;
+     newSkills.find(s => s.name == name && s.category == category).rating += 1;
+     
+     this.setState({
+       bp: this.state.bp + deltaBp,
+       knowSkills: newSkills,
+       bpSpentKnowSkills: this.state.bpSpentKnowSkills + Math.abs(deltaBp)
+     });
+  }
+
+  // Recipient: KnowSkillBox
+  // Purpose: Decrement a knowledge skill rating
+  onDecrementKnowSkill(name: string, category: KnowSkillCategory){
+    let deltaBp: number = this.state.bpSpentKnowSkills > 0 ? configs.knowledgeSkillCost : 0;
+    let newSkills = this.state.knowSkills;
+    newSkills.find(s => s.name == name && s.category == category).rating -= 1;
+    
+    this.setState({
+      bp: this.state.bp + deltaBp,
+      knowSkills: newSkills,
+      bpSpentKnowSkills: Math.abs(deltaBp)
+    });
   }
 }
