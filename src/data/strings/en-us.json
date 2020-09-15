@@ -10,7 +10,8 @@
     "intstr_know_skills": "Interests and Street (INT)",
     "free_know_skills": "Remaining free knowledge skill points",
     "knowskill_title": "Add a knowledge skill",
-    "knowskill_rules": "Knowledge skills fall into either Academic and Professional category (tied to LOG) or Interests and Street category (tied to INT).",
+    "knowskill_greeting": "Knowledge skills fall into either Academic and Professional category (tied to LOG) or Interests and Street category (tied to INT).",
+    "knowskill_rules": "Characters may have {0} knowledge skill at rating {1} or {2} knowledge skills at rating {3} at chargen.",
     "add_knowskill": "Add knowledge skill"
   },
   "error": {
@@ -23,7 +24,9 @@
     "exceeded_skillgroup_max": "Skill group {0} exceeds max allowed rating {1} at chargen",
     "exceeded_skill_max": "Skill {0} exceeds un-augmented skill cap of {1}",
     "exceeded_num_max_skills": "Exceeded number of allowed skills at natural rating {0} or above",
-    "exceeded_num_max_skillgroups": "Exceeded number of allowed skill groups at rating {0}"
+    "exceeded_num_max_skillgroups": "Exceeded number of allowed skill groups at rating {0}",
+    "exceeded_knowskill_max": "Knowledge skill {0} exceeds allowed maximum rating of {1}",
+    "exceeded_num_max_knowskills": "Exceeded number of allowed knowledge skills at rating {0} or above"
   },
   "qualities": {
     "0": {"name": "Celerity", "desc": "Increase base movement rates by 50%"},

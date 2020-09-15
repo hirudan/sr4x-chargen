@@ -12,5 +12,6 @@
   "numSkillsMax": 1,
   "numSkillsNearMax": 2,
   "numSkillGroupsMax": 2,
+  "knowskillMaxChargen": 6,
   "qualMax": 20
 }

@@ -1,4 +1,5 @@
 ﻿import * as React from 'react';
+import configs from '../data/configs/config.json';
 import {ChangeEvent} from 'react';
 import * as strings from '../data/strings/en-us.json';
 import {KnowledgeSkill} from "../interfaces/KnowledgeSkill";
@@ -81,7 +82,12 @@ export class KnowSkillBox extends React.Component<KnowSkillProps, KnowSkillState
                     </Modal.Header>
                     <Modal.Body>
                         <p>
-                            {strings.general.knowskill_rules}
+                            {strings.general.knowskill_greeting}
+                        </p>
+                        <p>
+                            {strings.general.knowskill_rules.format(String(configs.numSkillsMax), 
+                                String(configs.knowskillMaxChargen), String(configs.numSkillsNearMax), 
+                                String(configs.knowskillMaxChargen - 1))}
                         </p>
                         <div>
                             <Form onSubmit={() => this.handleClose}>

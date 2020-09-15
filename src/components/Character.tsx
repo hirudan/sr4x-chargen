@@ -206,7 +206,7 @@ export class Character extends React.Component<CharacterProps, State> {
     if(turboSkillGroups.length > configs.numSkillGroupsMax)
       this.errorLog.push(messages.error.exceeded_num_max_skillgroups.format(String(configs.skillGroupMaxChargen)));
     
-    //Rule: un-augmented skill values may not exceed an allowed max
+    // Rule: un-augmented skill values may not exceed an allowed max
     let maxxedSkills: SkillGroup[] = [];
     Object.keys(this.state.skills).forEach(sg => {
       if(Object.values(this.state.skills[sg].skills).every(s => s >= configs.skillMaxUnaug))
@@ -218,6 +218,18 @@ export class Character extends React.Component<CharacterProps, State> {
         this.errorLog.push(messages.error.exceeded_skill_max.format(messages.skills[skill], String(configs.skillMaxUnaug)))
       }
     }))
+    
+    // Rule: characters may have one knowledge skill at rating 6 or two at rating 5 at chargen
+    let maxKnowSkills = this.state.knowSkills.filter(skill => skill.rating >= configs.knowskillMaxChargen -1);
+    maxKnowSkills.forEach(skill => {
+      if(skill.rating > configs.knowskillMaxChargen)
+        this.errorLog.push(messages.error.exceeded_knowskill_max.format(skill.name, String(configs.knowskillMaxChargen)));
+    })
+    if(maxKnowSkills.filter(skill => skill.rating === configs.knowskillMaxChargen).length > configs.numSkillsMax)
+      this.errorLog.push(messages.error.exceeded_num_max_knowskills.format(String(configs.knowskillMaxChargen)))
+    if(maxKnowSkills.length > configs.numSkillsNearMax){
+      this.errorLog.push(messages.error.exceeded_num_max_knowskills.format(String(configs.knowskillMaxChargen - 1)));
+    }
     
     return this.errorLog.length === 0;
   }
