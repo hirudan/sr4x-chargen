@@ -173,12 +173,14 @@ export class Character extends React.Component<CharacterProps, State> {
       this.errorLog.push(messages.error.exceeded_max_mag_qual.format(String(this.state.attributes.MAG), 
           messages.qualities[this.ARTIFICER_ID].name, messages.qualities[this.SIGHT_ID].name));
     }
-
-    // Deep copy skills to see if that does anything
-    let copiedSkills: Array<SkillGroup> = Array.from(Object.assign({}, this.state.skills));
+    
+    let turboSkillGroups: Array<SkillGroup> = [];
     
     // Rule: max skill group rating is 4
-    let turboSkillGroups: SkillGroup[] = copiedSkills.filter(sg => sg.rating >= configs.skillGroupMaxChargen);
+    Object.keys(this.state.skills).forEach(sg => {
+     if (this.state.skills[sg].rating >= configs.skillGroupMaxChargen) 
+       turboSkillGroups.push(this.state.skills[sg]);
+    });
     turboSkillGroups.forEach((sg, index) => {
       if(sg.rating > configs.skillGroupMaxChargen)
       {
@@ -188,20 +190,20 @@ export class Character extends React.Component<CharacterProps, State> {
     
     // Rule: may only have 2 skill groups at rating 4 at chargen
     if(turboSkillGroups.length > configs.numSkillGroupsMax)
-      this.errorLog.push(messages.error.exceeded_num_max_skillgroups);
-
-
-    // Create big list of skill ratings for checking rules
-    
+      this.errorLog.push(messages.error.exceeded_num_max_skillgroups.format(String(configs.skillGroupMaxChargen)));
     
     //Rule: un-augmented skill values may not exceed an allowed max
-    let maxxedSkills: SkillGroup[] = copiedSkills.filter(sg => !Object.values(sg.skills).every(s => s < configs.skillMaxUnaug));
+    let maxxedSkills: SkillGroup[] = [];
+    Object.keys(this.state.skills).forEach(sg => {
+      if(Object.values(this.state.skills[sg].skills).every(s => s >= configs.skillMaxUnaug))
+        maxxedSkills.push(this.state.skills[sg]);
+    });
+    
     maxxedSkills.forEach(sg => Object.keys(sg.skills).map(skill => {
       if(sg.skills[skill] > configs.skillMaxUnaug){
         this.errorLog.push(messages.error.exceeded_skill_max.format(messages.skills[skill], String(configs.skillMaxUnaug)))
       }
     }))
-    
     
     return this.errorLog.length === 0;
   }
@@ -404,7 +406,6 @@ export class Character extends React.Component<CharacterProps, State> {
   // Recipient: SkillBox
   // Purpose: Adds a skill or skill group to the character's active skills
   onAddSkill(toAdd: Array<[number, boolean]>){
-     console.log(toAdd);
     let deltaBp: number = 0;
     let newSkills: Array<SkillGroup> = Object.assign({}, this.state.skills);
     

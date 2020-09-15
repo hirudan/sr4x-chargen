@@ -185,7 +185,6 @@ function buildSkillGroups(): Object{
     let groupedSkills = { };
     // As a convention, assign non-grouped skills to "group -1"
     Object.keys(strings.skillGroups).map(group => groupedSkills[group] = skillData.skills.filter(skill => skill.group === Number(group)));
-    console.log(groupedSkills);
     return groupedSkills;
 }
 
