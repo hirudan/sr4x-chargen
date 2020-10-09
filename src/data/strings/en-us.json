@@ -12,7 +12,11 @@
     "knowskill_title": "Add a knowledge skill",
     "knowskill_greeting": "Knowledge skills fall into either Academic and Professional category (tied to LOG) or Interests and Street category (tied to INT).",
     "knowskill_rules": "Characters may have {0} knowledge skill at rating {1} or {2} knowledge skills at rating {3} at chargen.",
-    "add_knowskill": "Add knowledge skill"
+    "add_knowskill": "Add knowledge skill",
+    "contact_title": "Add a contact",
+    "contact_greeting": "Specify a name, an archetype (e.g. \"Fixer\", \"Street Doc\", \"Smuggler\"), and a Connection and Loyalty rating for this contact.",
+    "contact_rules": "Contacts cost their Connection x Loyalty in Contact Points. 1 Build Point = 3 Contact Points.",
+    "contact_add": "Add contact"
   },
   "error": {
     "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype",

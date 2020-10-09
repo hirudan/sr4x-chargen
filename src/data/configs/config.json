@@ -13,5 +13,6 @@
   "numSkillsNearMax": 2,
   "numSkillGroupsMax": 2,
   "knowskillMaxChargen": 6,
-  "qualMax": 20
+  "qualMax": 20,
+  "cpConversion": 3
 }

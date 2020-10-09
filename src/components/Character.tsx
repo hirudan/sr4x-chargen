@@ -7,6 +7,7 @@ import {AttrArray} from "../interfaces/AttrArray";
 import {Quality} from "../interfaces/Quality";
 import {Skill} from "../interfaces/Skill";
 import {SkillGroup} from "../interfaces/SkillGroup";
+import {Contact} from "../interfaces/Contact";
 import configs from '../data/configs/config.json';
 import raceData from '../data/character/raceData.json';
 import qualData from '../data/character/qualities.json';
@@ -18,6 +19,7 @@ import {QualBox} from "./QualBox";
 import {SkillBox} from "./SkillBox";
 import {KnowledgeSkill} from "../interfaces/KnowledgeSkill";
 import {Col, Container, Row} from "react-bootstrap";
+import {ContactBox} from "./ContactBox";
 
 export interface CharacterProps {name?: string; bp?: number}
 
@@ -49,7 +51,9 @@ interface State {
   augSkillDelta: AttrArray,
   skills: Array<SkillGroup>,
   knowSkills: Array<KnowledgeSkill>,
-  bpSpentKnowSkills: number
+  bpSpentKnowSkills: number,
+  bpSpentContacts: number,
+  contacts: Array<Contact>
 }
 
 const averages = "attr_averages", softcaps = "attr_softcaps", hardcaps = "attr_hardcaps";
@@ -83,7 +87,9 @@ export class Character extends React.Component<CharacterProps, State> {
       augSkillDelta: {AGI: 0, REA: 0, STR: 0, CHA: 0, INT: 0, LOG: 0, EDG: 0}, // How many points skills have been increased by augmentation
       skills: protoSkills, // The active skills the character possesses
       knowSkills: new Array<KnowledgeSkill>(), // The character's knowledge skill array
-      bpSpentKnowSkills: 0
+      bpSpentKnowSkills: 0, // How many BP have actually been spent on knowledge skills (above free points)
+      bpSpentContacts: 0, // How many BP have actually been spent on contacts (above free points)
+      contacts: new Array<Contact>(), // The character's contacts
     };
     this.onMetatypeChanged = this.onMetatypeChanged.bind(this);
     this.onAttrIncrement = this.onAttrIncrement.bind(this);
@@ -98,6 +104,9 @@ export class Character extends React.Component<CharacterProps, State> {
     this.onRemoveKnowSkill = this.onRemoveKnowSkill.bind(this);
     this.onIncrementKnowSkill = this.onIncrementKnowSkill.bind(this);
     this.onDecrementKnowSkill = this.onDecrementKnowSkill.bind(this);
+    this.onAddContact = this.onAddContact.bind(this);
+    this.onRemoveContact = this.onRemoveContact.bind(this);
+    this.onChangeContact = this.onChangeContact.bind(this);
   }
   
   // Updates the derived attributes of BOD, ESS (eventually, after cyberware is implemented), INI, and WIL on the 
@@ -254,6 +263,14 @@ export class Character extends React.Component<CharacterProps, State> {
     return Math.max(starting - pointsExpended, 0);
   }
   
+  private computeContactPoints(): number{
+    let starting: number = this.state.attributes.CHA * 2;
+    let pointsExpended: number = 0;
+    this.state.contacts.forEach(contact => pointsExpended += (contact.connection * contact.loyalty))
+    
+    return Math.max(starting - pointsExpended, 0);
+  }
+  
   render(){
     this.valid = this.validate();
     return(
@@ -297,6 +314,11 @@ export class Character extends React.Component<CharacterProps, State> {
                             onDecrement={this.onDecrementKnowSkill}
                             knowSkills={this.state.knowSkills}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <ContactBox freePoints={this.computeContactPoints()} contacts={this.state.contacts} onAdd={this.onAddContact} onRemove={this.onRemoveContact} onChange={this.onChangeContact}/>
             </Col>
           </Row>
         </Container>);
@@ -643,6 +665,69 @@ export class Character extends React.Component<CharacterProps, State> {
       bp: this.state.bp + deltaBp,
       knowSkills: newSkills,
       bpSpentKnowSkills: Math.abs(deltaBp)
+    });
+  }
+  
+  // Recipient: ContactBox
+  // Purpose: Add a contact
+  onAddContact(contact: Contact){
+     let cost: number = contact.connection * contact.loyalty;
+     let cpAvailable: number = this.computeContactPoints();
+     let deltaBp: number = cpAvailable >= cost ? 0 : -(cost-cpAvailable)/configs.cpConversion;
+     let newContacts = this.state.contacts;
+     newContacts.push(contact);
+     
+     this.setState({
+       bp: Math.round((this.state.bp + deltaBp)*10000)/10000,
+       bpSpentContacts: Math.round((this.state.bpSpentContacts + Math.abs(deltaBp))*10000)/10000,
+       contacts: newContacts
+     })
+     
+  }
+
+  // Recipient: ContactBox
+  // Purpose: Remove a contact
+  onRemoveContact(contact: Contact){
+    let cost: number = contact.connection * contact.loyalty;
+    let cpAvailable: number = this.computeContactPoints();
+    let deltaBp: number = this.state.bpSpentContacts >= cost/configs.cpConversion ? cost/configs.cpConversion : this.state.bpSpentContacts;
+    let newContacts = this.state.contacts;
+    newContacts.splice(newContacts.findIndex(c => c.name === contact.name && c.archetype === contact.archetype), 1);
+    let newBpSpent = this.state.bpSpentContacts >= cost/configs.cpConversion ? this.state.bpSpentContacts - cost/configs.cpConversion : 0;
+    
+    this.setState({
+      bp: Math.round((this.state.bp + deltaBp)*10000)/10000,
+      contacts: newContacts,
+      bpSpentContacts: Math.round(newBpSpent * 10000)/10000
+    })
+  }
+
+  // Recipient: ContactBox
+  // Purpose: Change a contact's connection or loyalty
+  onChangeContact(contact: Contact){
+    let oldContact = this.state.contacts.find(c  => c.name == contact.name && c.archetype == contact.archetype);
+    let oldIndex: number = this.state.contacts.findIndex(c  => c.name == contact.name && c.archetype == contact.archetype);
+    let deltaCost = (contact.connection * contact.loyalty) - (oldContact.connection * oldContact.loyalty);
+    let newContacts = this.state.contacts;
+    let deltaBp: number = 0;
+    if(deltaCost < 0){
+      // The contact was nerfed
+      // deltaBp = this.computeContactPoints() - deltaCost < 0 ? -(deltaCost-this.computeContactPoints())/configs.cpConversion : (this.computeContactPoints() > 0 || this.state.bpSpentContacts == 0 ? 0 : -deltaCost/configs.cpConversion);
+      deltaBp = this.state.bpSpentContacts > Math.abs(deltaCost/configs.cpConversion) ? Math.abs(deltaCost/configs.cpConversion) : this.state.bpSpentContacts;
+    }
+    else{
+      // The contact was buffed
+      let freePoints = this.computeContactPoints();
+      deltaBp = freePoints >= deltaCost ? 0 : -(deltaCost - freePoints)/configs.cpConversion;
+    }
+    newContacts[oldIndex] = contact;
+    
+    console.log(this.state.bpSpentContacts);
+    
+    this.setState({
+      bp: Math.round((this.state.bp + deltaBp)*10000)/10000,
+      contacts: newContacts,
+      bpSpentContacts: Math.round((this.state.bpSpentContacts - deltaBp)*10000)/10000
     });
   }
 }
