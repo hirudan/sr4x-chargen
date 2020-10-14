@@ -118,7 +118,7 @@ export class KnowSkillBox extends React.Component<KnowSkillProps, KnowSkillState
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleClose}>Cancel</Button>
+                        <Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
                         <Button type="submit" onClick={this.submitForm}>Add</Button>
                     </Modal.Footer>
                 </Modal>

@@ -260,6 +260,23 @@ export class Character extends React.Component<CharacterProps, State> {
     
     return Math.max(starting - pointsExpended, 0);
   }
+
+  // Corrects BP spent on knowledge skills if the player raises or lowers INT or LOG, thus changing their available free skill point total
+  private async correctKnowSkillExpenditureAsync() {
+    let maxSp: number = (this.state.attributes.INT + this.state.attributes.LOG) * 3;
+    let totalKnowSkillCost: number = 0;
+    this.state.knowSkills.forEach(skill => totalKnowSkillCost += skill.rating);
+    totalKnowSkillCost *= configs.knowledgeSkillCost; // 1 at time of writing, but could change
+    let spSpent = Math.min(maxSp, totalKnowSkillCost); // Either spent the cost of the skills or the max allowed
+    // correct bP spent = total contact cost - cp spent. Delta is difference between this and what's in state.
+    // if CHA went up (sign is 1), we need to give BP back. If CHA went down, we (probably) need to charge BP.
+    // So deltaBp is negative when CHA decreases and positive when it increases
+    let correctBpSpentKnowSkills = totalKnowSkillCost - spSpent;
+    this.setState({
+      bp: this.state.bp + this.state.bpSpentKnowSkills - correctBpSpentKnowSkills,
+      bpSpentKnowSkills: correctBpSpentKnowSkills
+    })
+  }
   
   private computeContactPoints(): number{
     let starting: number = this.state.attributes.CHA * 2;
@@ -270,21 +287,15 @@ export class Character extends React.Component<CharacterProps, State> {
   }
   
   // Corrects BP spent on contacts if the player raises or lowers CHA, thus changing their available free CP total
-  private async correctContactExpenditureAsync(positive: boolean) {
-    console.log("At the beginning: \nbpSpentContacts: " + this.state.bpSpentContacts);
-    let sign = positive ? 1 : -1;
-    let maxCp: number = (this.state.attributes.CHA) * 2; // This will get called before the update to CHA goes through
+  private async correctContactExpenditureAsync() {
+    let maxCp: number = (this.state.attributes.CHA) * 2;
     let totalContactCostCp: number = 0;
     this.state.contacts.forEach(contact => totalContactCostCp += (contact.connection * contact.loyalty));
     let cpSpent = Math.min(maxCp, totalContactCostCp); // Either spent the cost of the contacts or the max allowed
     // correct bP spent = total contact cost - cp spent. Delta is difference between this and what's in state.
     // if CHA went up (sign is 1), we need to give BP back. If CHA went down, we (probably) need to charge BP.
     // So deltaBp is negative when CHA decreases and positive when it increases
-    console.log("Total contact cost: " + totalContactCostCp);
-    console.log("CP spent: " + cpSpent);
     let correctBpSpentContacts = (totalContactCostCp - cpSpent) / configs.cpConversion;
-    // let deltaBp = -1 * correctBpSpentContacts - this.state.bpSpentContacts / configs.cpConversion;
-    console.log("At the end: \nbpSpentContacts: " + correctBpSpentContacts);
     this.setState({
       bp: this.state.bp + this.state.bpSpentContacts - correctBpSpentContacts,
       bpSpentContacts: correctBpSpentContacts
@@ -417,7 +428,8 @@ export class Character extends React.Component<CharacterProps, State> {
      newAttributes[attr] += 1;
      newAttributeDelta[attr] += deltaAttr;
      await this.updateDerivedAttributes(newAttributes);
-     if(attr == Attribute.CHA) await this.correctContactExpenditureAsync(true);
+     if(attr == Attribute.CHA) await this.correctContactExpenditureAsync();
+     if(attr == Attribute.INT || attr == Attribute.LOG) await this.correctKnowSkillExpenditureAsync();
      this.setState({
        bp: this.state.bp + deltaBp,
        attributes: newAttributes,
@@ -441,7 +453,8 @@ export class Character extends React.Component<CharacterProps, State> {
      newAttributes[attr] -= 1;
      newAttributeDelta[attr] -= deltaAttr;
      await this.updateDerivedAttributes(newAttributes);
-     if(attr == Attribute.CHA) await this.correctContactExpenditureAsync(false);
+     if(attr == Attribute.CHA) await this.correctContactExpenditureAsync();
+     if(attr == Attribute.INT || attr == Attribute.LOG) await this.correctKnowSkillExpenditureAsync();
      this.setState({
        bp: this.state.bp + deltaBp,
        attributes: newAttributes,
