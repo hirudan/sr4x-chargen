@@ -22,6 +22,7 @@
     "contact_arch": "Enter archetype"
   },
   "error": {
+    "exceeded_max_bp": "Exceeded allowed maximum of {0} build points",
     "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype",
     "exceeded_allowed_neg_quals": "Exceeded allowed value {0}BP of negative qualities",
     "exceeded_allowed_pos_quals": "Exceeded allowed value {0}BP of positive qualities",

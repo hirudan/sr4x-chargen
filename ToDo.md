@@ -22,6 +22,11 @@
 - Data entry
 - Impelement
 
+## Programs
+- Data entry
+- Custom program system (?)
+- Implement
+
 ### Other stuff
 - Commlink designer -- need to be able to specify attributes
 - Design/implement system for having gear at a specific rating
@@ -54,6 +59,12 @@
 - Implement spell creation system
 - Add grimoire section & spell selection
 - Impelement free spell system
+
+### Traditions and Mentor Spirits
+- Data entry traditions
+- Data entry mentor spirits
+- Mentor spirit design
+- Tradition design
 
 ## Save and Load
 - Impelement saving to and loading from character file

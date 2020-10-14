@@ -152,6 +152,9 @@ export class Character extends React.Component<CharacterProps, State> {
   // Any errors will be logged to errorLog for later display. 
   private validate(): boolean{
     this.errorLog = new Array<string>();
+    // Rule: May not use > starting build points
+    if(this.state.bp < 0)
+      this.errorLog.push(messages.error.exceeded_max_bp.format(String(this.props.bp)));
     
     // Rule: attributes shall not exceed racial softcaps
     for(let attribute in this.state.attributes){
