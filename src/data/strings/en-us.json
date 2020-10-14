@@ -16,7 +16,10 @@
     "contact_title": "Add a contact",
     "contact_greeting": "Specify a name, an archetype (e.g. \"Fixer\", \"Street Doc\", \"Smuggler\"), and a Connection and Loyalty rating for this contact.",
     "contact_rules": "Contacts cost their Connection x Loyalty in Contact Points. 1 Build Point = 3 Contact Points.",
-    "contact_add": "Add contact"
+    "contact_add": "Add contact",
+    "free_contacts": "Remaining free contact points",
+    "contact_name": "Enter contact name",
+    "contact_arch": "Enter archetype"
   },
   "error": {
     "exceeded_softcap": "Exceeded soft (un-augmented) max attribute {0} for {1} metatype",

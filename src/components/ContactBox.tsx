@@ -79,8 +79,8 @@ export class ContactBox extends React.Component<ContactProps, ContactState>{
                         <div>
                             <Form onSubmit={this.handleClose}>
                                 <Form.Group controlId="qualSelect">
-                                    <Form.Control key="name" name="name" type="text" onChange={this.onStatChange} placeholder={"Enter contact name"} />
-                                    <Form.Control key="arch" name="archetype" type="text" onChange={this.onStatChange} placeholder={"Enter archetype"} />
+                                    <Form.Control key="name" name="name" type="text" onChange={this.onStatChange} placeholder={strings.general.contact_name} />
+                                    <Form.Control key="arch" name="archetype" type="text" onChange={this.onStatChange} placeholder={strings.general.contact_arch} />
                                     <Form.Control key="con" name="connection" type="number" onChange={this.onStatChange} placeholder={"CON"} min={1} max={6}/>
                                     <Form.Control key="loy" name="loyalty" type="number" onChange={this.onStatChange} placeholder={"LOY"} min={1} max={6}/>
                                 </Form.Group>
@@ -94,7 +94,7 @@ export class ContactBox extends React.Component<ContactProps, ContactState>{
                 </Modal>
                 
                 Contacts
-                <p>Remaining free contact points: {this.props.freePoints}</p>
+                <p>{strings.general.free_contacts}: {this.props.freePoints}</p>
                 {buildContactList(this.props.contacts, this.props.onRemove, this.props.onChange)}
                 <Button onClick={this.handleShow}>{strings.general.contact_add}</Button>
             </div>
