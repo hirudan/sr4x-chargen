@@ -1,0 +1,14 @@
+Cyberlimb system observations
+
+- Some augments give situational bonuses to tests. This needs to get reflected in the dice pool system
+- Some augments (e.g. analysis units) give other augments for free
+- Some augs span several categories (e.g. datajacks are headware but can be installed in limbs)
+- Some augs confer armor, hardened or otherwise, and that isn't in the program yet
+- Some augs (e.g. pain inhibitor) modify tests that don't depend on anything currently tracked in the app (in this case, wound modifiers, which can't be determined from a character sheet since they only come up during play)
+- IP is not yet in the game. Oops.
+- Cyber torso and skull give ESS discounts on things installed within them.
+- Some augs allow free text entry (cosmetic modification -- should this even be implemented?)
+- Building custom cyberware still needs to be possible and custom
+- Need to track items that have been added to all limbs together to enforce limits on "can be taken once per full limb"
+- Some qualities affect essence cost
+- Some augs may be bundles of bundles (SimStar(TM)) and bonuses don't stack
