@@ -3,14 +3,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "removeComments": true,
-    "module": "commonjs",
-    "isolatedModules": true,
-    "moduleResolution": "Node",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*"]
+    "removeComments": true
     }
-  },
-  "include": ["src/tests/*"]
 }
