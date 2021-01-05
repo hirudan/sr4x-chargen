@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "build": {
+    "appId": "SR4X Character Generator"
+  },
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "start": "npm run build && electron ./dist/electron.js",
-    "test": "mocha -r ts-node/register src/tests/*.ts"
+    "test": "mocha -r ts-node/register src/tests/*.ts",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "ship": "npm run build && npm run pack && npm run dist"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +26,7 @@
     "chai": "^4.2.0",
     "css-loader": "^3.6.0",
     "electron": "^9.3.5",
+    "electron-builder": "^22.9.1",
     "html-webpack-plugin": "^4.5.0",
     "mocha": "^8.2.1",
     "react": "^16.14.0",
