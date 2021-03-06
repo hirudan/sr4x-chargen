@@ -4,5 +4,5 @@
     "esModuleInterop": true,
     "jsx": "react",
     "removeComments": true
-  }
+    }
 }
