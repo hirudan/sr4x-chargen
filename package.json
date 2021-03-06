@@ -11,10 +11,11 @@
       "icon": "dist/favicon.ico"
     },
     "files": [
-      "dist/**/*"
+      "dist/*"
     ],
     "directories": {
-      "buildResources": "public"
+      "buildResources": "public",
+      "output": "builds"
     }
   },
   "scripts": {
@@ -25,8 +26,8 @@
     "ship": "npm run build && npm run dist"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "hirudan",
+  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.4",
