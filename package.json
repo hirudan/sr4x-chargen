@@ -2,17 +2,27 @@
   "name": "sr4x-chargen",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/electron.js",
   "build": {
-    "appId": "SR4X Character Generator"
+    "appId": "sr4x-chargen",
+    "productName": "SR4X Character Generator",
+    "win": {
+      "target": "zip",
+      "icon": "dist/favicon.ico"
+    },
+    "files": [
+      "dist/**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    }
   },
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "start": "npm run build && electron ./dist/electron.js",
     "test": "mocha -r ts-node/register src/tests/*.ts",
-    "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "ship": "npm run build && npm run pack && npm run dist"
+    "ship": "npm run build && npm run dist"
   },
   "keywords": [],
   "author": "",
