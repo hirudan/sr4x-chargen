@@ -2,7 +2,7 @@
   "name": "sr4x-chargen",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/electron.js",
+  "main": "./electron.js",
   "build": {
     "appId": "sr4x-chargen",
     "productName": "SR4X Character Generator",
@@ -11,7 +11,12 @@
       "icon": "dist/favicon.ico"
     },
     "files": [
-      "dist/*"
+      {
+        "from": "dist",
+        "to": "",
+        "filter": "**/*"
+      },
+      "package.json"
     ],
     "directories": {
       "buildResources": "public",
